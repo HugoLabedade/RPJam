@@ -309,6 +309,25 @@ INSERT INTO `inventaire` (`id`, `id_Users`, `id_item`, `quantité`) VALUES
 (11, 1, 11, 4),
 (12, 1, 12, 2);
 
+
+
+
+
+CREATE TABLE `inventaire_armes` (
+  `id` int(11) NOT NULL,
+  `id_Users` int(11) NOT NULL,
+  `id_item` int(11) NOT NULL,
+  `quantité` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+CREATE TABLE `inventaire_armures` (
+  `id` int(11) NOT NULL,
+  `id_Users` int(11) NOT NULL,
+  `id_item` int(11) NOT NULL,
+  `quantité` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 -- --------------------------------------------------------
 
 --

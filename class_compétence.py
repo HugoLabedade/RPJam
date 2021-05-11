@@ -1,4 +1,4 @@
-class Monstres(object) :
+class Competence(object) :
     
     def __init__( self, id, nom, Puissance, Magique_Physique, Autres, id_Famille_Efficace, id_effet, Pourcentage_Effet, Description, id_type, PM_Utilisé) :
 
