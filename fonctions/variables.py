@@ -1,4 +1,4 @@
-from class_user import User
+from classes.class_user import User
 
 User_actuel = User(None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)
 

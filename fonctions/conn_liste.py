@@ -1,10 +1,10 @@
 import pymysql
-from class_monstre import Monstres
-from class_user import User
-from class_compétence import Competence
-from class_arme import Arme
-from class_armure import Armure
-from class_objet import Objet
+from classes.class_monstre import Monstres
+from classes.class_user import User
+from classes.class_compétence import Competence
+from classes.class_arme import Arme
+from classes.class_armure import Armure
+from classes.class_objet import Objet
 
 # def connection(valeur):
 conn = pymysql.connect("localhost", "root", "", "rpjam" )

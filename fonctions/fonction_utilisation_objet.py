@@ -1,4 +1,4 @@
-from variables import *
+from fonctions.variables import *
 
 def utilisation_objet(objet) :
     

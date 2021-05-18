@@ -1,7 +1,7 @@
 
 from random import randrange
-from conn_liste import conn
-from fonction_compétence_avec_effet_supp import compétence_avec_effet_supp
+from fonctions.conn_liste import conn
+from fonctions.fonction_compétence_avec_effet_supp import compétence_avec_effet_supp
 
 def compétence_physique(user, monstre, compétence, chances_crit, Confusion_ennemi, Sommeil_ennemi, Poison_ennemi, Paralysie_ennemi, Brûlure_ennemi) :
 

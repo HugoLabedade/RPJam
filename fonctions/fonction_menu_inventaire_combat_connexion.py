@@ -1,42 +1,23 @@
 
-from class_user import User
+from classes.class_user import User
 from random import randrange
-
-from conn_liste import liste_armes
-from conn_liste import liste_armures
-from conn_liste import conn
-
-from variables import *
-
-from fonction_monstre import monstre
-
-from fonction_attaque_normal_user import Attaque_normal_user
-
-from fonction_print_compétences import print_compétences
-
-from fonction_compétence_physique import compétence_physique
-
-from fonction_compétence_magique import compétence_magique
-
-from fonction_compétence_sans_dommages import compétence_sans_dommages
-
-from fonction_print_objets import print_objets
-
-from fonction_utilisation_objet import utilisation_objet
-
-from fonction_critique import critique
-
-from fonction_loot import loot
-
-from fonction_gain_xp_golds import gain_xp_gold
-
-from fonction_boutique import boutique
-
-from fonction_equiper_arme import equiper_arme
-
-from fonction_attaque_monstre import attaque_monstre
-
-from fonction_equiper_armure import equiper_armure
+from fonctions.conn_liste import liste_armes, liste_armures, conn
+from fonctions.variables import *
+from fonctions.fonction_monstre import monstre
+from fonctions.fonction_attaque_normal_user import Attaque_normal_user
+from fonctions.fonction_print_compétences import print_compétences
+from fonctions.fonction_compétence_physique import compétence_physique
+from fonctions.fonction_compétence_magique import compétence_magique
+from fonctions.fonction_compétence_sans_dommages import compétence_sans_dommages
+from fonctions.fonction_print_objets import print_objets
+from fonctions.fonction_utilisation_objet import utilisation_objet
+from fonctions.fonction_critique import critique
+from fonctions.fonction_loot import loot
+from fonctions.fonction_gain_xp_golds import gain_xp_gold
+from fonctions.fonction_boutique import boutique
+from fonctions.fonction_equiper_arme import equiper_arme
+from fonctions.fonction_attaque_monstre import attaque_monstre
+from fonctions.fonction_equiper_armure import equiper_armure
 
 
 def lancement():

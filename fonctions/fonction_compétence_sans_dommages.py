@@ -1,5 +1,5 @@
-from variables import *
-from fonction_heal import heal
+from fonctions.variables import *
+from fonctions.fonction_heal import heal
 
 def compétence_sans_dommages(max_pv_user, compétence) :
     

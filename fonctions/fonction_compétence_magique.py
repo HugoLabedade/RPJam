@@ -1,7 +1,7 @@
 from random import randrange
-from conn_liste import conn
-from variables import *
-from fonction_compétence_avec_effet_supp import compétence_avec_effet_supp
+from fonctions.conn_liste import conn
+from fonctions.variables import *
+from fonctions.fonction_compétence_avec_effet_supp import compétence_avec_effet_supp
 
 def compétence_magique(user, monstre, compétence, chances_crit, Confusion_ennemi, Sommeil_ennemi, Poison_ennemi, Paralysie_ennemi, Brûlure_ennemi, Aura_de_peur, Psychocanalisation) :
     

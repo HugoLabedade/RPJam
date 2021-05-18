@@ -1,4 +1,4 @@
-from conn_liste import conn
+from fonctions.conn_liste import conn
 from random import randrange
 
 def level_up(user) :

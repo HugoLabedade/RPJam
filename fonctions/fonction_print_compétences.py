@@ -1,5 +1,4 @@
-from conn_liste import conn
-from conn_liste import liste_compétences
+from fonctions.conn_liste import conn, liste_compétences
 
 def print_compétences(id_user) :
     

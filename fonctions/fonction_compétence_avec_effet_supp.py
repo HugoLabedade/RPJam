@@ -1,5 +1,5 @@
 from random import randrange
-from variables import *
+from fonctions.variables import *
 
 def compétence_avec_effet_supp(compétence, degats, chances_crit, Confusion_ennemi, Sommeil_ennemi, Poison_ennemi, Paralysie_ennemi) :
 

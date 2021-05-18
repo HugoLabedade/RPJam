@@ -1,4 +1,4 @@
-from conn_liste import conn, liste_armures
+from fonctions.conn_liste import conn, liste_armures
 
 def print_armure(user) :
     

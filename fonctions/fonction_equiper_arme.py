@@ -1,5 +1,5 @@
-from fonction_print_arme import print_arme
-from conn_liste import conn
+from fonctions.fonction_print_arme import print_arme
+from fonctions.conn_liste import conn
 
 def equiper_arme(user) :
     

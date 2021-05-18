@@ -1,9 +1,9 @@
 from random import randrange
-from conn_liste import conn
-from variables import *
-from class_arme import Arme
-from class_armure import Armure
-from class_objet import Objet
+from fonctions.conn_liste import conn
+from fonctions.variables import *
+from classes.class_arme import Arme
+from classes.class_armure import Armure
+from classes.class_objet import Objet
 
 def loot(user, monstre_id) :
     

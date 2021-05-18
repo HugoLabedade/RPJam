@@ -1,4 +1,4 @@
-from conn_liste import liste_monstre
+from fonctions.conn_liste import liste_monstre
 
 def monstre(id) :
     

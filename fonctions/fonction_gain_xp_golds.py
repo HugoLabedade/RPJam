@@ -1,6 +1,6 @@
-from fonction_monstre import monstre
-from conn_liste import conn
-from fonction_level_up import level_up
+from fonctions.fonction_monstre import monstre
+from fonctions.conn_liste import conn
+from fonctions.fonction_level_up import level_up
 
 def gain_xp_gold(user, monstre_id) :
     

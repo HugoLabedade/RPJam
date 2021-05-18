@@ -1,7 +1,7 @@
-from conn_liste import conn
-from class_arme import Arme
-from class_armure import Armure
-from class_objet import Objet
+from fonctions.conn_liste import conn
+from classes.class_arme import Arme
+from classes.class_armure import Armure
+from classes.class_objet import Objet
 
 def boutique() :
     
