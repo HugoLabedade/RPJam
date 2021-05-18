@@ -134,13 +134,13 @@ for i in data_objets :
 
 for i in data_armes :
     
-    new_arme = Objet (i[0], i[1], i[2], i[3])
+    new_arme = Arme (i[0], i[1], i[2], i[3], i[4], i[5])
     liste_armes.append(new_arme)
 
 
 for i in data_armures :
     
-    new_armure = Objet (i[0], i[1], i[2], i[3])
+    new_armure = Armure (i[0], i[1], i[2], i[3], i[4], i[5])
     liste_armures.append(new_armure)
 
 
@@ -154,7 +154,10 @@ def monstre(id) :
 
 def Attaque_normal_user(attaque_user, défense_monstre) :
 
-    return (attaque_user - défense_monstre)
+    if attaque_user - défense_monstre < 0 :
+        return(0)
+    else :
+        return (attaque_user - défense_monstre)
 
 
 
@@ -926,7 +929,6 @@ def level_up(user) :
         conn.commit()
 
 
-
 def attaque_monstre(monstre, user) :
 
     degats = 0
@@ -943,6 +945,48 @@ def attaque_monstre(monstre, user) :
     return degats
 
 
+def print_arme() :
+    
+    liste_armes_inventaire = []
+    armes_inventaire_cursor=conn.cursor()
+
+
+    armes_inventaire = ("SELECT id_item FROM {0} WHERE {1} = {2}".format("inventaire_armes", "id_Users", User_actuel.id))
+    armes_inventaire_cursor.execute(armes_inventaire)
+
+
+    data_armes_inventaire = armes_inventaire_cursor.fetchall()
+
+    for i in data_armes_inventaire :
+    
+        for j in i :
+
+            liste_armes_inventaire.append(liste_armes[j-1])
+
+
+    return (liste_armes_inventaire)
+
+
+def print_armure() :
+    
+    liste_armures_inventaire = []
+    armures_inventaire_cursor=conn.cursor()
+
+
+    armures_inventaire = ("SELECT id_item FROM {0} WHERE {1} = {2}".format("inventaire_armures", "id_Users", User_actuel.id))
+    armures_inventaire_cursor.execute(armures_inventaire)
+
+
+    data_armures_inventaire = armures_inventaire_cursor.fetchall()
+
+    for i in data_armures_inventaire :
+    
+        for j in i :
+
+            liste_armures_inventaire.append(liste_armures[j-1])
+
+
+    return (liste_armures_inventaire)
 
 
 def combat(monstre_id) :
@@ -951,14 +995,133 @@ def combat(monstre_id) :
 
     monstre_PV_Max = monstre_actuel.PV
     monstre_PV = monstre_actuel.PV
-    user_PV_Max = User_actuel.PV
-    user_PM_Max = User_actuel.PM
-    user_Attaque_base = User_actuel.Attaque
-    user_Défense_base = User_actuel.Défense
-    user_Vitesse_base = User_actuel.Vitesse
-    user_PV = User_actuel.PV
 
-    print("user pv : {0}".format(User_actuel.PV))
+
+    global User_actuel
+    global user_PV_Max
+    global user_PM_Max
+    global user_Attaque_base
+    global user_Défense_base
+    global user_Vitesse_base
+    global user_PV
+    global vérif_equipement
+
+    equipement_cursor=conn.cursor()
+    equipement = ("SELECT * FROM {0} WHERE id = {1}".format("equipement_users", User_actuel.id))
+    equipement_cursor.execute(equipement)
+    data_equipement = equipement_cursor.fetchone()
+
+    
+
+    if data_equipement[2] is not None and vérif_equipement == False:
+        casque = liste_armures[data_equipement[2]-1]        
+        if casque.stat_boost == "Attaque" :
+            user_Attaque_base += casque.bonus_stat
+        elif casque.stat_boost == "Puissance_Magique" :
+            User_actuel.Puissance_Magique += casque.bonus_stat
+        elif casque.stat_boost == "Défense" :
+            user_Défense_base += casque.bonus_stat
+        elif casque.stat_boost == "Résistance_Magique" :
+            User_actuel.Résistance_Magique += casque.bonus_stat
+        elif casque.stat_boost == "Vitesse" :
+            user_Vitesse_base += casque.bonus_stat
+        elif casque.stat_boost == "Esquive" :
+            User_actuel.Esquive += casque.bonus_stat
+
+    if data_equipement[3] is not None and vérif_equipement == False:
+        plastron = liste_armures[data_equipement[2]-1]        
+        if plastron.stat_boost == "Attaque" :
+            user_Attaque_base += plastron.bonus_stat
+        elif plastron.stat_boost == "Puissance_Magique" :
+            User_actuel.Puissance_Magique += plastron.bonus_stat
+        elif plastron.stat_boost == "Défense" :
+            user_Défense_base += plastron.bonus_stat
+        elif plastron.stat_boost == "Résistance_Magique" :
+            User_actuel.Résistance_Magique += plastron.bonus_stat
+        elif plastron.stat_boost == "Vitesse" :
+            user_Vitesse_base += plastron.bonus_stat
+        elif plastron.stat_boost == "Esquive" :
+            User_actuel.Esquive += plastron.bonus_stat
+
+    if data_equipement[4] is not None and vérif_equipement == False:
+        jambières = liste_armures[data_equipement[2]-1]        
+        if jambières.stat_boost == "Attaque" :
+            user_Attaque_base += jambières.bonus_stat
+        elif jambières.stat_boost == "Puissance_Magique" :
+            User_actuel.Puissance_Magique += jambières.bonus_stat
+        elif jambières.stat_boost == "Défense" :
+            user_Défense_base += jambières.bonus_stat
+        elif jambières.stat_boost == "Résistance_Magique" :
+            User_actuel.Résistance_Magique += jambières.bonus_stat
+        elif jambières.stat_boost == "Vitesse" :
+            user_Vitesse_base += jambières.bonus_stat
+        elif jambières.stat_boost == "Esquive" :
+            User_actuel.Esquive += jambières.bonus_stat
+
+    if data_equipement[5] is not None and vérif_equipement == False:
+        bottes = liste_armures[data_equipement[2]-1]        
+        if bottes.stat_boost == "Attaque" :
+            user_Attaque_base += bottes.bonus_stat
+        elif bottes.stat_boost == "Puissance_Magique" :
+            User_actuel.Puissance_Magique += bottes.bonus_stat
+        elif bottes.stat_boost == "Défense" :
+            user_Défense_base += bottes.bonus_stat
+        elif bottes.stat_boost == "Résistance_Magique" :
+            User_actuel.Résistance_Magique += bottes.bonus_stat
+        elif bottes.stat_boost == "Vitesse" :
+            user_Vitesse_base += bottes.bonus_stat
+        elif bottes.stat_boost == "Esquive" :
+            User_actuel.Esquive += bottes.bonus_stat
+
+    if data_equipement[6] is not None and vérif_equipement == False:
+        anneau = liste_armures[data_equipement[2]-1]        
+        if anneau.stat_boost == "Attaque" :
+            user_Attaque_base += anneau.bonus_stat
+        elif anneau.stat_boost == "Puissance_Magique" :
+            User_actuel.Puissance_Magique += anneau.bonus_stat
+        elif anneau.stat_boost == "Défense" :
+            user_Défense_base += anneau.bonus_stat
+        elif anneau.stat_boost == "Résistance_Magique" :
+            User_actuel.Résistance_Magique += anneau.bonus_stat
+        elif anneau.stat_boost == "Vitesse" :
+            user_Vitesse_base += anneau.bonus_stat
+        elif anneau.stat_boost == "Esquive" :
+            User_actuel.Esquive += anneau.bonus_stat
+
+    if data_equipement[7] is not None and vérif_equipement == False:
+        collier = liste_armures[data_equipement[2]-1]        
+        if collier.stat_boost == "Attaque" :
+            user_Attaque_base += collier.bonus_stat
+        elif collier.stat_boost == "Puissance_Magique" :
+            User_actuel.Puissance_Magique += collier.bonus_stat
+        elif collier.stat_boost == "Défense" :
+            user_Défense_base += collier.bonus_stat
+        elif collier.stat_boost == "Résistance_Magique" :
+            User_actuel.Résistance_Magique += collier.bonus_stat
+        elif collier.stat_boost == "Vitesse" :
+            user_Vitesse_base += collier.bonus_stat
+        elif collier.stat_boost == "Esquive" :
+            User_actuel.Esquive += collier.bonus_stat
+
+    if data_equipement[8] is not None and vérif_equipement == False:
+        arme = liste_armes[data_equipement[2]-1]        
+        if arme.stat_boost == "Attaque" :
+            user_Attaque_base += arme.bonus_stat
+        elif arme.stat_boost == "Puissance_Magique" :
+            User_actuel.Puissance_Magique += arme.bonus_stat
+        elif arme.stat_boost == "Défense" :
+            user_Défense_base += arme.bonus_stat
+        elif arme.stat_boost == "Résistance_Magique" :
+            User_actuel.Résistance_Magique += arme.bonus_stat
+        elif arme.stat_boost == "Vitesse" :
+            user_Vitesse_base += arme.bonus_stat
+        elif arme.stat_boost == "Esquive" :
+            User_actuel.Esquive += arme.bonus_stat
+
+    vérif_equipement = True
+
+    print("user pv : {0}".format(user_PV))
+    print("user pm : {0}".format(User_actuel.PM))
 
     print("Début du combat contre un {0}".format(monstre_actuel.nom))
     print("PV du monstre : {0}".format(monstre_PV))
@@ -1012,7 +1175,7 @@ def combat(monstre_id) :
     global Count_Protection
     global Count_Hâte
 
-
+    
 
     while monstre_PV > 0 and user_PV > 0:
 
@@ -1070,6 +1233,8 @@ def combat(monstre_id) :
 
             
             if Sommeil == False and Paralysie == False and user_PV > 0 :
+
+                print(User_actuel.Attaque)
 
                 action = input("Attaque/Compétence/Objet : ")
 
@@ -1440,13 +1605,32 @@ def combat(monstre_id) :
         loot(monstre_id)
         gain_xp_gold(monstre_id)
 
+        combat(1)
+
 
 
     else :
         print ("fin du combat PV user = {0}".format(user_PV))
 
+        user_cursor2=conn.cursor()
+        user2 = ("SELECT * FROM {0} WHERE id = {1}".format("Users", User_actuel.id))
+        user_cursor2.execute(user2)
+        data_user2 = user_cursor2.fetchone()
 
-    menu()
+
+        User_actuel = User (data_user2[0], data_user2[1], data_user2[2], data_user2[3], data_user2[4], data_user2[5], data_user2[6], data_user2[7], data_user2[8], data_user2[9], data_user2[10], data_user2[11], data_user2[12], data_user2[13], data_user2[14], data_user2[15], data_user2[16])
+        
+        user_PV_Max = User_actuel.PV
+        user_PM_Max = User_actuel.PM
+        user_Attaque_base = User_actuel.Attaque
+        user_Défense_base = User_actuel.Défense
+        user_Vitesse_base = User_actuel.Vitesse
+        user_PV = User_actuel.PV
+        vérif_equipement = False
+
+        menu()
+
+    
 
 
 def boutique() :
@@ -1488,7 +1672,54 @@ def boutique() :
 
 
 
-#menu()
+def equiper_arme() :
+    
+    liste_armes_inventaire = print_arme()
+    for i in liste_armes_inventaire :
+        print (i)
+
+    arme_equiper = input("Quel arme voulez vous équiper ? : ")
+
+    for i in liste_armes_inventaire :
+    
+        if i.nom == arme_equiper :
+
+            update_cursor=conn.cursor()
+            update_query = ("UPDATE equipement_users SET {0} = {1} WHERE id_Users = {2}".format("id_arme", i.id, User_actuel.id))
+            update_cursor.execute(update_query)
+            conn.commit()
+
+
+
+
+def equiper_armure() :
+    
+    liste_armures_inventaire = print_armure()
+    for i in liste_armures_inventaire :
+        print (i)
+
+    arme_equiper = input("Quel arme voulez vous équiper ? : ")
+
+    for i in liste_armures_inventaire :
+    
+        if i.nom == arme_equiper :
+            update_cursor=conn.cursor()
+
+            if i.type_armure == "casque" :
+                update_query = ("UPDATE equipement_users SET {0} = {1} WHERE id_Users = {2}".format("id_casque", i.id, User_actuel.id))
+            elif i.type_armure == "plastron" :
+                update_query = ("UPDATE equipement_users SET {0} = {1} WHERE id_Users = {2}".format("id_plastron", i.id, User_actuel.id))
+            elif i.type_armure == "jambières" :
+                update_query = ("UPDATE equipement_users SET {0} = {1} WHERE id_Users = {2}".format("id_jambières", i.id, User_actuel.id))
+            elif i.type_armure == "bottes" :
+                update_query = ("UPDATE equipement_users SET {0} = {1} WHERE id_Users = {2}".format("id_bottes", i.id, User_actuel.id))
+            elif i.type_armure == "anneau" :
+                update_query = ("UPDATE equipement_users SET {0} = {1} WHERE id_Users = {2}".format("id_anneau", i.id, User_actuel.id))
+            elif i.type_armure == "collier" :
+                update_query = ("UPDATE equipement_users SET {0} = {1} WHERE id_Users = {2}".format("id_collier", i.id, User_actuel.id))
+
+            update_cursor.execute(update_query)
+            conn.commit()
 
 
 def create_user():
@@ -1540,6 +1771,26 @@ def create_user():
         global User_actuel
         User_actuel = User (data_user[0], data_user[1], data_user[2], data_user[3], data_user[4], data_user[5], data_user[6], data_user[7], data_user[8], data_user[9], data_user[10], data_user[11], data_user[12], data_user[13], data_user[14], data_user[15], data_user[16])
 
+        insert_equipement_cursor=conn.cursor()
+        insert_equipement_query = ("INSERT INTO equipement_users(id, id_Users) VALUES({0}, {1})".format(max_id+1, max_id+1))
+        insert_equipement_cursor.execute(insert_equipement_query)
+        conn.commit()
+        
+        global user_PV_Max
+        user_PV_Max = User_actuel.PV
+        global user_PM_Max
+        user_PM_Max = User_actuel.PM
+        global user_Attaque_base
+        user_Attaque_base = User_actuel.Attaque
+        global user_Défense_base
+        user_Défense_base = User_actuel.Défense
+        global user_Vitesse_base
+        user_Vitesse_base = User_actuel.Vitesse
+        global user_PV
+        user_PV = User_actuel.PV
+        global vérif_equipement
+        vérif_equipement = False
+
         menu()
 
     else :
@@ -1566,6 +1817,23 @@ def connexion():
         global User_actuel
         User_actuel = User (data_user[0], data_user[1], data_user[2], data_user[3], data_user[4], data_user[5], data_user[6], data_user[7], data_user[8], data_user[9], data_user[10], data_user[11], data_user[12], data_user[13], data_user[14], data_user[15], data_user[16])
 
+        global user_PV_Max
+        user_PV_Max = User_actuel.PV
+        global user_PM_Max
+        user_PM_Max = User_actuel.PM
+        global user_Attaque_base
+        user_Attaque_base = User_actuel.Attaque
+        global user_Défense_base
+        user_Défense_base = User_actuel.Défense
+        global user_Vitesse_base
+        user_Vitesse_base = User_actuel.Vitesse
+        global user_PV
+        user_PV = User_actuel.PV
+        global vérif_equipement
+        vérif_equipement = False
+
+        
+
         menu()
 
 
@@ -1579,7 +1847,31 @@ def lancement():
 
 
 def inventaire() :
-    print("test")
+
+    action = int(input("voir l'inventaire d'objet(1) / gérer l'équipement(2) : "))
+
+    if action == 1 :
+        liste_objets_inventaire = print_objets(User_actuel.id)
+        for i in liste_objets_inventaire :
+            print (i)
+
+    elif action == 2 :
+        
+        arme_armure = int(input("Gérer son arme(1) / Gérer ses armures(2) : "))
+
+        if arme_armure == 1 :
+            equiper_arme()
+            menu()
+
+        elif arme_armure == 2 :
+            equiper_armure()
+            menu()
+
+        else :
+            menu()
+
+    else :
+        menu()
 
 
 def menu():
