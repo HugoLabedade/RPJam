@@ -1,6 +1,6 @@
 class User(object) :
 
-    def __init__( self, id, pseudo, password, classe, points_de_compétences, LV, PV, PM, Attaque, Puissance_Magique, Défense, Résistance_Magique, Vitesse, Golds, XP_For_Next_LV, XP ) :
+    def __init__( self, id, pseudo, password, classe, points_de_compétences, LV, PV, PM, Attaque, Puissance_Magique, Défense, Résistance_Magique, Vitesse, Esquive, Golds, XP_For_Next_LV, XP ) :
 
         self.id = id
         self.pseudo = pseudo
@@ -15,13 +15,14 @@ class User(object) :
         self.Défense = Défense
         self.Résistance_Magique = Résistance_Magique
         self.Vitesse = Vitesse
+        self.Esquive = Esquive
         self.Golds = Golds
         self.XP_For_Next_LV = XP_For_Next_LV
         self.XP = XP
 
 
     def __str__( self ) :
-        return ("{0} {1} {2} {3} {4} {5} {6} {7} {8} {9} {10} {11} {12} {13} {14} {15}".format(
+        return ("{0} {1} {2} {3} {4} {5} {6} {7} {8} {9} {10} {11} {12} {13} {14} {15} {16}".format(
             self.id, 
             self.pseudo,
             self.password,
@@ -35,6 +36,7 @@ class User(object) :
             self.Défense,
             self.Résistance_Magique,
             self.Vitesse,
+            self.Esquive,
             self.Golds,
             self.XP_For_Next_LV,
             self.XP

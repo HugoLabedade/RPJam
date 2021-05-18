@@ -16,7 +16,6 @@ conn = pymysql.connect("localhost", "root", "", "rpjam" )
 
 
 # Création des curseurs
-user_cursor=conn.cursor()
 monstres_cursor=conn.cursor()
 compétence_cursor=conn.cursor()
 objets_cursor=conn.cursor()
@@ -24,10 +23,6 @@ arme_cursor=conn.cursor()
 armure_cursor=conn.cursor()
 
 
-
-# Récupère les données du User
-Users = ("SELECT * FROM {0}".format("Users"))
-user_cursor.execute(Users)
 
 # Récupère les données des Monstres
 all_monstres = ("SELECT * FROM {0}".format("Monstres"))
@@ -51,7 +46,6 @@ armure_cursor.execute(armures)
 
 
 # Stockage des données dans des variables
-data_user = user_cursor.fetchone()
 data_monstres = monstres_cursor.fetchall()
 data_compétences = compétence_cursor.fetchall()
 data_objets = objets_cursor.fetchall()
@@ -68,10 +62,7 @@ liste_armures = []
 
 
 
-print (data_user)
-
-User_actuel = User (data_user[0], data_user[1], data_user[2], data_user[3], data_user[4], data_user[5], data_user[6], data_user[7], data_user[8], data_user[9], data_user[10], data_user[11], data_user[12], data_user[13], data_user[14], data_user[15])
-
+User_actuel = ""
 
 
 Brûlure = False
@@ -851,7 +842,7 @@ def gain_xp_gold(monstre_id) :
 
     
 
-    if data_vérification_level_up[1] > data_vérification_level_up[0] :
+    if data_vérification_level_up[1] >= data_vérification_level_up[0] :
 
         level_up(User_actuel)
 
@@ -893,14 +884,72 @@ def level_up(user) :
         update_stats_cursor.execute(update_stats_query)
         conn.commit()
 
+    
+    apprentissage_compétence_cursor=conn.cursor()
+    apprentissage_compétence_query = ("SELECT classe, LV FROM Users WHERE id = {0}".format(User_actuel.id))
+    apprentissage_compétence_cursor.execute(apprentissage_compétence_query)
+    data_apprentissage_compétence = apprentissage_compétence_cursor.fetchall()
+
+    LV = 0
+    classe = ""
+
+    for i in data_apprentissage_compétence :
+        LV = i[1]
+        classe = i[0]
+
+    
+    vérif_compétence_cursor=conn.cursor()
+    vérif_compétence_query = ("SELECT id_compétences FROM compétences_par_lv WHERE classe = '{0}' AND LV_Obtention = {1}".format(classe, LV))
+    vérif_compétence_cursor.execute(vérif_compétence_query)
+    data_vérif_compétence = vérif_compétence_cursor.fetchone()
+
+    if data_vérif_compétence is not None :
+
+        id_max_compétence_cursor=conn.cursor()
+        id_max_compétence_query = ("SELECT MAX(id) FROM compétences_apprises")
+        id_max_compétence_cursor.execute(id_max_compétence_query)
+        data_id_max_compétence = id_max_compétence_cursor.fetchone()
+
+        max_id = 0
+        id_compétence = 0
+
+        if data_id_max_compétence is not None :
+            for i in data_id_max_compétence :
+                max_id = i
+
+        for j in data_vérif_compétence :
+            id_compétence = j
+
+        insert_compétence_cursor=conn.cursor()
+        insert_compétence_query = ("INSERT INTO compétences_apprises VALUES({0}, {1}, {2})".format(max_id+1, User_actuel.id, id_compétence))
+        insert_compétence_cursor.execute(insert_compétence_query)
+        conn.commit()
 
 
 
-def user_turn(monstre_id) :
+def attaque_monstre(monstre, user) :
+
+    degats = 0
+
+    if monstre.Attaque >= monstre.Puissance_Magique :
+        degats = monstre.Attaque - user.Défense
+    else :
+        degats = monstre.Puissance_Magique - user.Résistance_Magique
+
+    if degats < 0 :
+        degats = 0
+
+
+    return degats
+
+
+
+
+def combat(monstre_id) :
 
     monstre_actuel = monstre(monstre_id)
 
-    #monstre_PV_Max = monstre_actuel.PV
+    monstre_PV_Max = monstre_actuel.PV
     monstre_PV = monstre_actuel.PV
     user_PV_Max = User_actuel.PV
     user_PM_Max = User_actuel.PM
@@ -909,6 +958,7 @@ def user_turn(monstre_id) :
     user_Vitesse_base = User_actuel.Vitesse
     user_PV = User_actuel.PV
 
+    print("user pv : {0}".format(User_actuel.PV))
 
     print("Début du combat contre un {0}".format(monstre_actuel.nom))
     print("PV du monstre : {0}".format(monstre_PV))
@@ -992,7 +1042,6 @@ def user_turn(monstre_id) :
             if User_actuel.PM > user_PM_Max :
                 User_actuel.PM = user_PM_Max
 
-
         if Clic_clac_zap == True :
             Brûlure = False
             Poison = False
@@ -1000,29 +1049,28 @@ def user_turn(monstre_id) :
             Paralysie = False
             Confusion = False
 
-        if Brûlure == True :
-            print("Avant brulure : {0}".format(user_PV))
-            user_PV -= round((user_PV_Max/20))
-            print("Après brulure : {0}".format(user_PV))
 
-        elif Poison == True :
-            print("Avant poison : {0}".format(user_PV))
-            user_PV -= round((user_PV_Max/20))
-            print("Après poison : {0}".format(user_PV))
+        if User_actuel.Vitesse >= monstre_actuel.Vitesse :
 
-        elif Sommeil == True :
-            #Attaque_monstre
-            print("rien pour l'instant")
+            # Code tour du user
+            if Brûlure == True :
+                print("Avant brulure : {0}".format(user_PV))
+                user_PV -= round((user_PV_Max/20))
+                print("Après brulure : {0}".format(user_PV))
+
+            elif Poison == True :
+                print("Avant poison : {0}".format(user_PV))
+                user_PV -= round((user_PV_Max/20))
+                print("Après poison : {0}".format(user_PV))
+
+            elif Confusion == True :
+                print("Avant confusion : {0}".format(user_PV))
+                user_PV -= round((user_PV_Max/5))
+                print("Après confusion : {0}".format(user_PV))
+
             
-        elif Paralysie == True :
-            #Attaque_monstre
-            print("rien pour l'instant")
+            if Sommeil == False and Paralysie == False and user_PV > 0 :
 
-        elif Confusion == True :
-            randomint = randrange(1,3)
-            if randomint == 1 :
-
-                # Dérouler normal du combat
                 action = input("Attaque/Compétence/Objet : ")
 
                 if action == "Attaque" :
@@ -1073,91 +1121,224 @@ def user_turn(monstre_id) :
                             else :
 
                                 print("PM insuffisants")
-            
-            else : 
-                print("Avant confusion : {0}".format(user_PV))
-                user_PV -= round((user_PV_Max/10))
-                print("Après confusion : {0}".format(user_PV))
 
+                elif action == "Objet" :
+
+                    liste_objets_inventaire = print_objets(User_actuel.id)
+                    for i in liste_objets_inventaire :
+                        print (i)
+
+                    nom_objet = input("Quelle objet voulez vous utiliser ? : ")
+
+                    for i in liste_objets_inventaire :
+        
+                        if i.nom == nom_objet :     
+                            données = utilisation_objet(i)
+
+                            user_PV += données[0]
+                            if user_PV > user_PV_Max :
+                                user_PV = user_PV_Max
+
+                            User_actuel.PM += données[1]
+                            if User_actuel.PM > user_PM_Max :
+                                User_actuel.PM = user_PM_Max
+
+                            print(user_PV)
+                            print(User_actuel.PM)
+            
+            elif Sommeil == True :
+                print("Gros dodo")
+
+            elif Paralysie == True :
+                print("Paralysé ne peut pas attaquer")
+
+            # Code tour du monstre
+            if Brûlure_ennemi == True :
+                print("Avant brulure : {0}".format(monstre_PV))
+                monstre_PV -= round((monstre_PV_Max/20))
+                print("Après brulure : {0}".format(monstre_PV))
+
+            elif Poison_ennemi == True :
+                print("Avant poison : {0}".format(monstre_PV))
+                monstre_PV -= round((monstre_PV_Max/20))
+                print("Après poison : {0}".format(monstre_PV))
+
+            elif Confusion_ennemi == True :
+                print("Avant confusion : {0}".format(monstre_PV))
+                monstre_PV -= round((monstre_PV_Max/5))
+                print("Après confusion : {0}".format(monstre_PV))
+
+
+            if Sommeil_ennemi == False and Paralysie_ennemi == False and monstre_PV > 0 :
+                degats_monstre = attaque_monstre(monstre_actuel, User_actuel)
+
+                if Boost_Esquive == True :
+                    randomint = randrange(1,101)
+                    if randomint <= User_actuel.Esquive + 15 :
+                        degats_monstre = 0
+
+                else :
+                    randomint = randrange(1,101)
+                    if randomint <= User_actuel.Esquive :
+                        degats_monstre = 0
+
+                if Grâce_de_la_Déesse == True and degats_monstre >= user_PV:
+                    user_PV = user_PM_Max
+                    print("Grâce de la déesse activé")
+                else :
+                    user_PV -= degats_monstre
+
+            elif Sommeil_ennemi == True :
+                print("Gros dodo du monstre")
+                
+            elif Paralysie_ennemi == True :
+                print("Paralysé le monstre ne peut pas attaquer")
+
+
+
+        
         else :
 
-            action = input("Attaque/Compétence/Objet : ")
+            # Code tour du monstre
+            if Brûlure_ennemi == True :
+                print("Avant brulure : {0}".format(monstre_PV))
+                monstre_PV -= round((monstre_PV_Max/20))
+                print("Après brulure : {0}".format(monstre_PV))
 
-            if action == "Attaque" :
+            elif Poison_ennemi == True :
+                print("Avant poison : {0}".format(monstre_PV))
+                monstre_PV -= round((monstre_PV_Max/20))
+                print("Après poison : {0}".format(monstre_PV))
+
+            elif Confusion_ennemi == True :
+                print("Avant confusion : {0}".format(monstre_PV))
+                monstre_PV -= round((monstre_PV_Max/5))
+                print("Après confusion : {0}".format(monstre_PV))
+
+
+            if Sommeil_ennemi == False and Paralysie_ennemi == False and monstre_PV > 0 :
+                degats_monstre = attaque_monstre(monstre_actuel, User_actuel)
+
+                if Boost_Esquive == True :
+                    randomint = randrange(1,101)
+                    if randomint <= User_actuel.Esquive + 15 :
+                        degats_monstre = 0
+
+                else :
+                    randomint = randrange(1,101)
+                    if randomint <= User_actuel.Esquive :
+                        degats_monstre = 0
+
+                if Grâce_de_la_Déesse == True and degats_monstre >= user_PV:
+                    user_PV = user_PM_Max
+                    print("Grâce de la déesse activé")
+                else :
+                    user_PV -= degats_monstre
+
+            elif Sommeil_ennemi == True :
+                print("Gros dodo du monstre")
                 
-                monstre_PV -= Attaque_normal_user(User_actuel.Attaque, monstre_actuel.Défense)
-                print("PV du monstre : {0}".format(monstre_PV))
+            elif Paralysie_ennemi == True :
+                print("Paralysé le monstre ne peut pas attaquer")
 
-            elif action == "Compétence" :
-                
-                liste_compétences_apprises = print_compétences(User_actuel.id)
-                for i in liste_compétences_apprises :
-                    print (i)
-                
-                nom_compétence = input("Quelle compétence voulez vous utiliser ? : ")
 
-                for i in liste_compétences_apprises :
+            if Brûlure == True :
+                print("Avant brulure : {0}".format(user_PV))
+                user_PV -= round((user_PV_Max/20))
+                print("Après brulure : {0}".format(user_PV))
 
-                    if i.nom == nom_compétence :
+            elif Poison == True :
+                print("Avant poison : {0}".format(user_PV))
+                user_PV -= round((user_PV_Max/20))
+                print("Après poison : {0}".format(user_PV))
 
-                        if User_actuel.PM > i.PM_Utilisé : 
+            elif Confusion == True :
+                print("Avant confusion : {0}".format(user_PV))
+                user_PV -= round((user_PV_Max/5))
+                print("Après confusion : {0}".format(user_PV))
 
-                            if i.Magique_Physique == "Physique" :
-                                données = compétence_physique(User_actuel, monstre_actuel, i, chances_crit)
-                                degats = critique(données[0], données[3])
-                                monstre_PV -= degats
-                                User_actuel.PM -= données[1]
-                                user_PV += données[2]
-                                if user_PV > user_PV_Max :
-                                    user_PV = user_PV_Max
+            if Sommeil == False and Paralysie == False and user_PV > 0 :
+                action = input("Attaque/Compétence/Objet : ")
 
-                            elif i.Magique_Physique == "Magique" :
-                                données = compétence_magique(User_actuel, monstre_actuel, i, chances_crit)
-                                degats = critique(données[0], données[3])
-                                monstre_PV -= degats
-                                User_actuel.PM -= données[1]
-                                user_PV += données[2]
-                                if user_PV > user_PV_Max :
-                                    user_PV = user_PV_Max
+                if action == "Attaque" :
+                    
+                    monstre_PV -= Attaque_normal_user(User_actuel.Attaque, monstre_actuel.Défense)
+                    print("PV du monstre : {0}".format(monstre_PV))
+
+                elif action == "Compétence" :
+                    
+                    liste_compétences_apprises = print_compétences(User_actuel.id)
+                    for i in liste_compétences_apprises :
+                        print (i)
+                    
+                    nom_compétence = input("Quelle compétence voulez vous utiliser ? : ")
+
+                    for i in liste_compétences_apprises :
+
+                        if i.nom == nom_compétence :
+
+                            if User_actuel.PM > i.PM_Utilisé : 
+
+                                if i.Magique_Physique == "Physique" :
+                                    données = compétence_physique(User_actuel, monstre_actuel, i, chances_crit)
+                                    degats = critique(données[0], données[3])
+                                    monstre_PV -= degats
+                                    User_actuel.PM -= données[1]
+                                    user_PV += données[2]
+                                    if user_PV > user_PV_Max :
+                                        user_PV = user_PV_Max
+
+                                elif i.Magique_Physique == "Magique" :
+                                    données = compétence_magique(User_actuel, monstre_actuel, i, chances_crit)
+                                    degats = critique(données[0], données[3])
+                                    monstre_PV -= degats
+                                    User_actuel.PM -= données[1]
+                                    user_PV += données[2]
+                                    if user_PV > user_PV_Max :
+                                        user_PV = user_PV_Max
+
+                                else :
+                                    données = compétence_sans_dommages(user_PV_Max, i)
+                                    user_PV += données[0]
+                                    User_actuel.PM -= données[1]
+                                    print(User_actuel.PM)
+                                    if user_PV > user_PV_Max :
+                                        user_PV = user_PV_Max
 
                             else :
-                                données = compétence_sans_dommages(user_PV_Max, i)
-                                user_PV += données[0]
-                                User_actuel.PM -= données[1]
-                                print(User_actuel.PM)
-                                if user_PV > user_PV_Max :
-                                    user_PV = user_PV_Max
 
-                        else :
+                                print("PM insuffisants")
 
-                            print("PM insuffisants")
+                elif action == "Objet" :
 
-            elif action == "Objet" :
+                    liste_objets_inventaire = print_objets(User_actuel.id)
+                    for i in liste_objets_inventaire :
+                        print (i)
 
-                liste_objets_inventaire = print_objets(User_actuel.id)
-                for i in liste_objets_inventaire :
-                    print (i)
+                    nom_objet = input("Quelle objet voulez vous utiliser ? : ")
 
-                nom_objet = input("Quelle objet voulez vous utiliser ? : ")
+                    for i in liste_objets_inventaire :
+        
+                        if i.nom == nom_objet :     
+                            données = utilisation_objet(i)
 
-                for i in liste_objets_inventaire :
-    
-                    if i.nom == nom_objet :     
-                        données = utilisation_objet(i)
+                            user_PV += données[0]
+                            if user_PV > user_PV_Max :
+                                user_PV = user_PV_Max
 
-                        user_PV += données[0]
-                        if user_PV > user_PV_Max :
-                            user_PV = user_PV_Max
+                            User_actuel.PM += données[1]
+                            if User_actuel.PM > user_PM_Max :
+                                User_actuel.PM = user_PM_Max
 
-                        User_actuel.PM += données[1]
-                        if User_actuel.PM > user_PM_Max :
-                            User_actuel.PM = user_PM_Max
+                            print(user_PV)
+                            print(User_actuel.PM)
 
-                        print(user_PV)
-                        print(User_actuel.PM)
+            elif Sommeil == True :
+                print("Gros dodo")
 
-
-
+            elif Paralysie == True :
+                print("Paralysé ne peut pas attaquer")
+                  
 
 
         # Décompte des tours des effets
@@ -1265,17 +1446,276 @@ def user_turn(monstre_id) :
         print ("fin du combat PV user = {0}".format(user_PV))
 
 
+    menu()
+
+
+def boutique() :
+
+    liste_boutique = []
+    
+
+    boutique_cursor=conn.cursor()
+    boutique_query = ("SELECT * FROM boutique")
+    boutique_cursor.execute(boutique_query)
+    data_boutique = boutique_cursor.fetchall()
+
+    for i in data_boutique :
+
+        liste_items = []
+
+        boutique_cursor2=conn.cursor()
+        boutique_query2 = ("SELECT * FROM {0} WHERE id = {1}".format(i[2], i[1]))
+        boutique_cursor2.execute(boutique_query2)
+        data_boutique2 = boutique_cursor2.fetchone()
+        j = data_boutique2
+
+        if i[2] == "objet" :
+            item = Objet(j[0], j[1], j[2], j[3])
+            liste_items.append(item)
+        elif i[2] == "arme" :
+            item = Arme(j[0], j[1], j[2], j[3], j[4], j[5])
+            liste_items.append(item)
+        elif i[2] == "armure" :
+            item = Armure(j[0], j[1], j[2], j[3], j[4], j[5])
+            liste_items.append(item)
+
+        liste_items.append(i[3])
+        liste_items.append(i[2])
+        liste_boutique.append(liste_items)
+
+    return(liste_boutique)
 
 
 
 
+#menu()
 
 
-user_turn(3)
+def create_user():
+
+    print("test")
+
+    pseudo = input("Pseudo : ")
+    mdp = input("password : ")
+    classe = input("classe : ")
+
+    user_cursor=conn.cursor()
+    user = ("SELECT * FROM {0} WHERE pseudo = '{1}' AND password = '{2}'".format("Users", pseudo, mdp))
+    user_cursor.execute(user)
+    data_user = user_cursor.fetchone()
+
+    if data_user is None :
+
+        max_id_cursor=conn.cursor()
+        max_id_query = ("SELECT MAX(id) FROM {0}".format("Users"))
+        max_id_cursor.execute(max_id_query)
+        data_max_id = max_id_cursor.fetchone()
+        max_id = 0
+
+        for i in data_max_id :
+
+            if i is None :
+
+                max_id = 0
+
+            else :
+                
+                max_id = i
+
+
+        insert_cursor=conn.cursor()
+
+        if classe == "Assassin" :
+            insert_query = ("INSERT INTO {0} VALUES({1}, '{2}', '{3}', '{4}', {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17})".format("Users", max_id+1, pseudo, mdp, classe, 0, 1, 10, 10, 10, 10, 10, 10, 10, 5, 0, 4, 0))
+        else :
+            insert_query = ("INSERT INTO {0} VALUES({1}, '{2}', '{3}', '{4}', {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17})".format("Users", max_id+1, pseudo, mdp, classe, 0, 1, 10, 10, 10, 10, 10, 10, 10, 0, 0, 4, 0))
+        insert_cursor.execute(insert_query)
+        conn.commit()
+
+        user_cursor=conn.cursor()
+        user = ("SELECT * FROM {0} WHERE pseudo = '{1}' AND password = '{2}'".format("Users", pseudo, mdp))
+        user_cursor.execute(user)
+        data_user = user_cursor.fetchone()
+
+        global User_actuel
+        User_actuel = User (data_user[0], data_user[1], data_user[2], data_user[3], data_user[4], data_user[5], data_user[6], data_user[7], data_user[8], data_user[9], data_user[10], data_user[11], data_user[12], data_user[13], data_user[14], data_user[15], data_user[16])
+
+        menu()
+
+    else :
+
+        lancement()
+
+
+def connexion():
+
+    pseudo = input("Pseudo : ")
+    mdp = input("password : ")
+
+    user_cursor=conn.cursor()
+    user = ("SELECT * FROM {0} WHERE pseudo = '{1}' AND password = '{2}'".format("Users", pseudo, mdp))
+    user_cursor.execute(user)
+    data_user = user_cursor.fetchone()
+
+    
+    if data_user is None :
+
+        lancement()
+
+    else : 
+        global User_actuel
+        User_actuel = User (data_user[0], data_user[1], data_user[2], data_user[3], data_user[4], data_user[5], data_user[6], data_user[7], data_user[8], data_user[9], data_user[10], data_user[11], data_user[12], data_user[13], data_user[14], data_user[15], data_user[16])
+
+        menu()
+
+
+def lancement():
+    conn_create = input("Connexion / Inscription : ")
+
+    if conn_create == "Connexion" :
+        connexion()
+    elif conn_create == "Inscription" :
+        create_user()
+
+
+def inventaire() :
+    print("test")
+
+
+def menu():
+    action = input("combat / boutique / inventaire / quitter ? : ")
+    if action == "combat" :
+        id_monstre = int(input("id du monstre à affronter ? : "))
+        combat(id_monstre)
+
+    elif action == "boutique" :
+        print("entrer boutique")
+        liste_boutique = boutique()
+        for i in liste_boutique :
+            print ("{0} , prix : {1}".format(i[0].nom, i[1], i[2]))
+
+        achat = input("Que voulez vous acheter ? : ")
+
+        for i in liste_boutique :
+        
+            if i[0].nom == achat and i[1] <= User_actuel.Golds :
+
+                # Update inventaire, arme, armure ou objet
+                print(i[0], i[1], i[2])
+                print(User_actuel.id)
+                update_golds_cursor=conn.cursor()
+                update_golds_query = ("UPDATE Users SET Golds = Golds - {0} WHERE id = {1}".format(i[1], User_actuel.id))
+                update_golds_cursor.execute(update_golds_query)
+                conn.commit()
+
+                if i[2] == "arme" :
+
+                    select_cursor=conn.cursor()
+                    select_query = ("SELECT * FROM inventaire_armes WHERE id_Users = {0} AND id_item = {1}".format(User_actuel.id, i[0].id))
+                    select_cursor.execute(select_query)
+                    data_select = select_cursor.fetchone()
+
+                    if data_select is not None :
+                        
+                        update_inventaire_cursor=conn.cursor()
+                        update_inventaire_query = ("UPDATE inventaire_armes SET quantité = quantité + 1 WHERE id_Users = {0} AND id_item = {1}".format(User_actuel.id, i[0].id))
+                        update_inventaire_cursor.execute(update_inventaire_query)
+                        conn.commit()
+
+                    else :
+
+                        max_id_cursor=conn.cursor()
+                        max_id_query = ("SELECT MAX(id) FROM {0}".format("inventaire_armes"))
+                        max_id_cursor.execute(max_id_query)
+                        data_max_id = max_id_cursor.fetchone()
+                        max_id = 0
+
+                        for j in data_max_id :
+                            max_id = j
+
+                        insert_cursor=conn.cursor()
+                        insert_query = ("INSERT INTO inventaire_armes VALUES({0}, {1}, {2}, {3})".format(max_id+1, User_actuel.id, i[0].id, 1))
+                        insert_cursor.execute(insert_query)
+                        conn.commit()
+
+                elif i[2] == "armure" :
+
+                    select_cursor=conn.cursor()
+                    select_query = ("SELECT * FROM inventaire_armures WHERE id_Users = {0} AND id_item = {1}".format(User_actuel.id, i[0].id))
+                    select_cursor.execute(select_query)
+                    data_select = select_cursor.fetchone()
+
+                    if data_select is not None :
+                        
+                        update_inventaire_cursor=conn.cursor()
+                        update_inventaire_query = ("UPDATE inventaire_armures SET quantité = quantité + 1 WHERE id_Users = {0} AND id_item = {1}".format(User_actuel.id, i[0].id))
+                        update_inventaire_cursor.execute(update_inventaire_query)
+                        conn.commit()
+
+                    else :
+
+                        max_id_cursor=conn.cursor()
+                        max_id_query = ("SELECT MAX(id) FROM {0}".format("inventaire_armures"))
+                        max_id_cursor.execute(max_id_query)
+                        data_max_id = max_id_cursor.fetchone()
+                        max_id = 0
+
+                        for j in data_max_id :
+                            max_id = j
+
+                        insert_cursor=conn.cursor()
+                        insert_query = ("INSERT INTO inventaire_armures VALUES({0}, {1}, {2}, {3})".format(max_id+1, User_actuel.id, i[0].id, 1))
+                        insert_cursor.execute(insert_query)
+                        conn.commit()
+
+                elif i[2] == "objet" :
+                    
+                    select_cursor=conn.cursor()
+                    select_query = ("SELECT * FROM inventaire WHERE id_Users = {0} AND id_item = {1}".format(User_actuel.id, i[0].id))
+                    select_cursor.execute(select_query)
+                    data_select = select_cursor.fetchone()
+
+                    if data_select is not None :
+                        
+                        update_inventaire_cursor=conn.cursor()
+                        update_inventaire_query = ("UPDATE inventaire SET quantité = quantité + 1 WHERE id_Users = {0} AND id_item = {1}".format(User_actuel.id, i[0].id))
+                        update_inventaire_cursor.execute(update_inventaire_query)
+                        conn.commit()
+
+                    else :
+
+                        max_id_cursor=conn.cursor()
+                        max_id_query = ("SELECT MAX(id) FROM {0}".format("inventaire"))
+                        max_id_cursor.execute(max_id_query)
+                        data_max_id = max_id_cursor.fetchone()
+                        max_id = 0
+
+                        for j in data_max_id :
+                            max_id = j
+
+                        insert_cursor=conn.cursor()
+                        insert_query = ("INSERT INTO inventaire VALUES({0}, {1}, {2}, {3})".format(max_id+1, User_actuel.id, i[0].id, 1))
+                        insert_cursor.execute(insert_query)
+                        conn.commit()
+
+
+            elif i[0].nom == achat and i[1] > User_actuel.Golds :
+
+                print("pas assez de golds")
+                
+        menu()
+
+    elif action == "inventaire":
+
+        inventaire()
+
+
+    elif action == "quitter" :
+        print("stop")
+
+    else :
+        menu()
 
 
 
-
-
-#Boost_Esquive = False # Encore à faire après l'attaque du monstre
-#Grâce_de_la_Déesse = False # Encore à faire après l'attaque du monstre
+lancement()

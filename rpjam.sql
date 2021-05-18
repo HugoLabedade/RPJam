@@ -74,6 +74,7 @@ INSERT INTO `armure` (`id`, `nom`, `type_armure`, `stat_boost`, `bonus_stat`, `s
 CREATE TABLE `boutique` (
   `id` int(11) NOT NULL,
   `id_item` int(11) NOT NULL,
+  `table_item` varchar(255) NOT NULL,
   `prix` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -130,7 +131,7 @@ INSERT INTO `compétences` (`id`, `nom`, `Puissance`, `Magique_Physique`, `Autre
 (26, 'Coup bestial', 15, 'Physique', 0, 7, NULL, NULL, 'Coup qui inflige de gros dégâts aux monstres de la famille des bêtes.', NULL, 7),
 (27, 'Délivrance', 20, 'Physique', 0, 2, NULL, NULL, 'Coup de lance sacrée qui peut infliger de gros dégâts aux morts-vivants.', NULL, 10),
 (28, 'Tonnerre divin', 70, 'Magique', 1, NULL, NULL, NULL, 'Cette compétence lumineuse anéanti l''ennemi avec un puissant élair, elle possède un fort taux de coup critique.', 4, 50),
-(29, 'Gigatornade', 50, 'Magique', 0, NULL, NULL, NULL, 'Fouette un ennemi avec une tornade d''une puissance jamais vue.', 3, 35),
+(29, 'Ball''ombre', 120, 'Magique', 0, NULL, '3', NULL, 'Lance une masse d''énergie noir sur l''ennemi, peut parfois l''endormir.', 5, 100),
 (30, 'Cercle du carnage', NULL, NULL, 1, NULL, NULL, NULL, 'Invoque un sceau qui augmente les chances d''infliger des sorts critiques.', NULL, 7),
 (31, 'Hypnolame', 10, 'Physique', 0, NULL, '2', 15, 'Attaque à l''épée qui peut parfois désorienter l''ennemi.', NULL, 7),
 (32, 'Flagellan', 20, 'Physique', 0, NULL, '3', 25, 'Attaque à l''épée placée sur un ennemi et qui peut parfois l''endormir.', NULL, 10),
@@ -160,8 +161,7 @@ INSERT INTO `compétences` (`id`, `nom`, `Puissance`, `Magique_Physique`, `Autre
 (56, 'Lame de givre', 60, 'Physique', 0, NULL, NULL, NULL, 'Fend l''ennemi avec une épée glaciale.', 2, 20),
 (57, 'Décuplo', NULL, NULL, 1, NULL, NULL, NULL, 'Boost l''attaque de l''utilisateur.', NULL, 20),
 (58, 'Protection', NULL, NULL, 1, NULL, NULL, NULL, 'Boost la défense de l''utilisateur.', NULL, 25),
-(59, 'Hâte', NULL, NULL, 1, NULL, NULL, NULL, 'Boost la vitesse de l''utilisateur.', NULL, 15),
-(60, 'Ball''ombre', 120, 'Magique', 0, NULL, '3', NULL, 'Lance une masse d''énergie noir sur l''ennemi, peut parfois l''endormir.', 5, 100);
+(59, 'Hâte', NULL, NULL, 1, NULL, NULL, NULL, 'Boost la vitesse de l''utilisateur.', NULL, 15);
 
 -- --------------------------------------------------------
 
@@ -268,6 +268,41 @@ CREATE TABLE `compétences_par_lv` (
   `LV_Obtention` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+INSERT INTO `compétences_par_lv` (`id`, `classe`, `id_compétences`, `LV_Obtention`) VALUES
+(1, 'Guerrier', 1, 5),
+(2, 'Guerrier', 2, 9),
+(3, 'Guerrier', 5, 15),
+(4, 'Guerrier', 21, 17),
+(5, 'Guerrier', 22, 20),
+(6, 'Guerrier', 48, 26),
+(7, 'Guerrier', 26, 31),
+(8, 'Guerrier', 27, 37),
+(9, 'Guerrier', 59, 40),
+(10, 'Assassin', 11, 5),
+(11, 'Assassin', 12, 9),
+(12, 'Assassin', 13, 14),
+(13, 'Assassin', 14, 18),
+(14, 'Assassin', 32, 21),
+(15, 'Assassin', 31, 26),
+(16, 'Assassin', 1, 29),
+(17, 'Assassin', 2, 34),
+(18, 'Assassin', 44, 36),
+(19, 'Assassin', 47, 40),
+(20, 'Mage', 21, 5),
+(21, 'Mage', 17, 9),
+(22, 'Mage', 39, 12),
+(23, 'Mage', 8, 16),
+(24, 'Mage', 22, 19),
+(25, 'Mage', 58, 25),
+(26, 'Mage', 40, 27),
+(27, 'Mage', 9, 30),
+(28, 'Mage', 44, 31),
+(29, 'Mage', 47, 32),
+(30, 'Mage', 23, 36),
+(31, 'Mage', 41, 38),
+(32, 'Mage', 10, 40);
+
 -- --------------------------------------------------------
 
 --
@@ -297,8 +332,7 @@ INSERT INTO `effet` (`id`, `Effet`) VALUES
 --
 
 CREATE TABLE `equipement_users` (
-  `id` int(11) NOT NULL,
-  `id_Users` int(11) DEFAULT NULL,
+  `id_Users` int(11) NOT NULL,
   `id_casque` int(11) DEFAULT NULL,
   `id_plastron` int(11) DEFAULT NULL,
   `id_jambières` int(11) DEFAULT NULL,
@@ -635,7 +669,7 @@ ALTER TABLE `compétences_par_lv`
 -- Index pour la table `equipement_users`
 --
 ALTER TABLE `equipement_users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id_Users`);
 
 --
 -- Index pour la table `faiblesse`
