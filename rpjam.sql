@@ -433,7 +433,7 @@ CREATE TABLE `equipement_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO equipement_users VALUES
-(1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+(1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
