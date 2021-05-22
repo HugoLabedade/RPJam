@@ -328,8 +328,7 @@ INSERT INTO `compétences_apprises` (`id`, `id_Users`, `id_compétences`) VALUES
 (56, 1, 56),
 (57, 1, 57),
 (58, 1, 58),
-(59, 1, 59),
-(60, 1, 60);
+(59, 1, 59);
 
 -- --------------------------------------------------------
 
@@ -871,7 +870,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `pseudo`, `password`, `classe`, `points_de_compétences`, `LV`, `PV`, `PM`, `Attaque`, `Puissance_Magique`, `Défense`, `Résistance_Magique`, `Vitesse`, `Esquive`, `Golds`, `XP_For_Next_LV`, `XP`) VALUES
-(1, 'Reitag', 'Reitag', 'Guerrier', 28, 12, 86, 40, 36, 14, 36, 13, 31, 0, 53660, 1844, 36);
+(1, 'Reitag', '863258b32fe932c8717c29182b5ee7e3', 'Guerrier', 28, 12, 86, 40, 36, 14, 36, 13, 31, 0, 53660, 1844, 36);
 
 --
 -- Index pour les tables déchargées
