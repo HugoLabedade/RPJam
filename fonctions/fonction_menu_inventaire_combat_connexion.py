@@ -18,6 +18,7 @@ from fonctions.fonction_boutique import boutique
 from fonctions.fonction_equiper_arme import equiper_arme
 from fonctions.fonction_attaque_monstre import attaque_monstre
 from fonctions.fonction_equiper_armure import equiper_armure
+import hashlib
 
 
 def lancement():
@@ -33,8 +34,10 @@ def connexion():
     pseudo = input("Pseudo : ")
     mdp = input("password : ")
 
+    hashpass = hashlib.md5(mdp.encode('utf8')).hexdigest()
+
     user_cursor=conn.cursor()
-    user = ("SELECT * FROM {0} WHERE pseudo = '{1}' AND password = '{2}'".format("Users", pseudo, mdp))
+    user = ("SELECT * FROM {0} WHERE pseudo = '{1}' AND password = '{2}'".format("Users", pseudo, hashpass))
     user_cursor.execute(user)
     data_user = user_cursor.fetchone()
 
@@ -67,15 +70,15 @@ def connexion():
         menu(User_actuel)
 
 def create_user():
-    
-    print("test")
 
     pseudo = input("Pseudo : ")
     mdp = input("password : ")
     classe = input("classe : ")
 
+    hashpass = hashlib.md5(mdp.encode('utf8')).hexdigest()
+
     user_cursor=conn.cursor()
-    user = ("SELECT * FROM {0} WHERE pseudo = '{1}' AND password = '{2}'".format("Users", pseudo, mdp))
+    user = ("SELECT * FROM {0} WHERE pseudo = '{1}' AND password = '{2}'".format("Users", pseudo, hashpass))
     user_cursor.execute(user)
     data_user = user_cursor.fetchone()
 
@@ -101,14 +104,14 @@ def create_user():
         insert_cursor=conn.cursor()
 
         if classe == "Assassin" :
-            insert_query = ("INSERT INTO {0} VALUES({1}, '{2}', '{3}', '{4}', {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17})".format("Users", max_id+1, pseudo, mdp, classe, 0, 1, 10, 10, 10, 10, 10, 10, 10, 5, 0, 4, 0))
+            insert_query = ("INSERT INTO {0} VALUES({1}, '{2}', '{3}', '{4}', {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17})".format("Users", max_id+1, pseudo, hashpass, classe, 0, 1, 10, 10, 10, 10, 10, 10, 10, 5, 0, 4, 0))
         else :
-            insert_query = ("INSERT INTO {0} VALUES({1}, '{2}', '{3}', '{4}', {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17})".format("Users", max_id+1, pseudo, mdp, classe, 0, 1, 10, 10, 10, 10, 10, 10, 10, 0, 0, 4, 0))
+            insert_query = ("INSERT INTO {0} VALUES({1}, '{2}', '{3}', '{4}', {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17})".format("Users", max_id+1, pseudo, hashpass, classe, 0, 1, 10, 10, 10, 10, 10, 10, 10, 0, 0, 4, 0))
         insert_cursor.execute(insert_query)
         conn.commit()
 
         user_cursor=conn.cursor()
-        user = ("SELECT * FROM {0} WHERE pseudo = '{1}' AND password = '{2}'".format("Users", pseudo, mdp))
+        user = ("SELECT * FROM {0} WHERE pseudo = '{1}' AND password = '{2}'".format("Users", pseudo, hashpass))
         user_cursor.execute(user)
         data_user = user_cursor.fetchone()
 
