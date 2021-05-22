@@ -16,6 +16,7 @@ def print_compétences(id_user) :
     for i in data_compétences_apprises :
     
         for j in i :
+            print(j)
 
             liste_compétences_apprises.append(liste_compétences[j-1])
 
