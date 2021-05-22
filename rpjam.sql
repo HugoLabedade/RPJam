@@ -41,7 +41,21 @@ CREATE TABLE `arme` (
 --
 
 INSERT INTO `arme` (`id`, `nom`, `type_arme`, `stat_boost`, `bonus_stat`, `sprite_name`) VALUES
-(1, 'arme_test', 'épée', 'Attaque', 15, NULL);
+(1, 'épée en pierre', 'épée', 'Attaque', 5, 'épéepierre'),
+(2, 'Sabre', 'épée', 'Attaque', 6, 'Sabre'),
+(3, 'Lance', 'lance', 'Attaque', 7, 'Lance'),
+(4, 'Marteau', 'marteau', 'Attaque', 8, 'Marteau'),
+(5, 'Hache', 'hache', 'Attaque', 10, 'Hache'),
+(6, 'épée en fer', 'épée', 'Attaque', 13, 'épéefer'),
+(7, 'Baguette Pur', 'baguette', 'Puissance_Magique', 10, 'BaguettePur'),
+(8, 'Arc', 'arc', 'Attaque', 15, 'Arc'),
+(9, 'épée sacrée', 'épée', 'Attaque', 20, 'épéesacrée'),
+(10, 'Baguette Inferno', 'baguette', 'Puissance_Magique', 20, 'BaguetteInferno'),
+(11, 'épée minecraft', 'épée', 'Attaque', 25, 'épéeminecraft'),
+(12, 'Dague Draconique', 'dague', 'Attaque', 30, 'DagueDraconique'),
+(13, 'Baguette Démonique', 'baguette', 'Puissance_Magique', 50, 'BaguetteDémonique'),
+(14, 'Excalibur', 'épée', 'Attaque', 40, 'Excalibur'),
+(15, 'Hache Divine', 'hache', 'Attaque', 50, 'HacheDivine');
 
 -- --------------------------------------------------------
 
@@ -63,7 +77,30 @@ CREATE TABLE `armure` (
 --
 
 INSERT INTO `armure` (`id`, `nom`, `type_armure`, `stat_boost`, `bonus_stat`, `sprite_name`) VALUES
-(1, 'armure_test', 'casque', 'Attaque', 15, NULL);
+(1, 'Casque Basique', 'casque', 'Défense', 3, 'CasqueBasique'),
+(2, 'Casque de Viking', 'casque', 'Défense', 5, 'CasqueViking'),
+(3, 'Casque de Chevalier', 'casque', 'Défense', 7, 'CasqueChevalier'),
+(4, 'Casque de Samourai', 'casque', 'Défense', 10, 'CasqueSamourai'),
+(5, 'Plastron de Pierre', 'plastron', 'Défense', 5, 'PlastronPierre'),
+(6, 'Plastron de Fer', 'plastron', 'Défense', 7, 'PlastronFer'),
+(7, 'Plastron de Platine', 'plastron', 'Défense', 10, 'PlastronPlatine'),
+(8, 'Plastron Minecraft', 'plastron', 'Défense', 15, 'PlastronMinecraft'),
+(9, 'Jambières Basique', 'jambières', 'Résistance_Magique', 3, 'JambièreBasique'),
+(10, 'Jambières Fer', 'jambières', 'Résistance_Magique', 5, 'JambièreFer'),
+(11, 'Jambières Forte', 'jambières', 'Résistance_Magique', 7, 'JambièreForte'),
+(12, 'Jambières Platine', 'jambières', 'Résistance_Magique', 10, 'JambièrePlatine'),
+(13, 'Bottes en Cuir', 'bottes', 'Vitesse', 5, 'BottesCuir'),
+(14, 'Bottes de Maille', 'bottes', 'Vitesse', 10, 'BottesMaille'),
+(15, 'Bottes de Fer', 'bottes', 'Vitesse', 15, 'BottesFer'),
+(16, 'Bottes de Platine', 'bottes', 'Vitesse', 20, 'BottesPlatine'),
+(17, 'Anneau en Fer', 'anneau', 'Puissance_Magique', 5, 'AnneauFer'),
+(18, 'Anneau de Platine', 'anneau', 'Puissance_Magique', 7, 'AnneauPlatine'),
+(19, 'Anneau de Diamant', 'anneau', 'Puissance_Magique', 10, 'AnneauDiamant'),
+(20, 'Anneau Unique', 'anneau', 'Puissance_Magique', 15, 'AnneauUnique'),
+(21, 'Collier Simple', 'collier', 'Esquive', 2, 'CollierSimple'),
+(22, 'Collier en Or', 'collier', 'Esquive', 3, 'CollierOr'),
+(23, 'Collier de Rubis', 'collier', 'Esquive', 4, 'CollierRubis'),
+(24, 'Collier en Emeraude', 'collier', 'Esquive', 5, 'CollierEmeraude');
 
 -- --------------------------------------------------------
 
@@ -77,6 +114,59 @@ CREATE TABLE `boutique` (
   `table_item` varchar(255) NOT NULL,
   `prix` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `boutique` VALUES
+(1, 1, 'objet', 250),
+(2, 2, 'objet', 500),
+(3, 3, 'objet', 1000),
+(4, 4, 'objet', 2000),
+(5, 5, 'objet', 500),
+(6, 6, 'objet', 350),
+(7, 7, 'objet', 1050),
+(8, 8, 'objet', 1700),
+(9, 9, 'objet', 10000),
+(10, 10, 'objet', 10000),
+(11, 11, 'objet', 10000),
+(12, 12, 'objet', 10000),
+(13, 1, 'arme', 500),
+(14, 2, 'arme', 600),
+(15, 3, 'arme', 800),
+(16, 4, 'arme', 1000),
+(17, 5, 'arme', 1500),
+(18, 6, 'arme', 2500),
+(19, 7, 'arme', 2000),
+(20, 8, 'arme', 5000),
+(21, 9, 'arme', 10000),
+(22, 10, 'arme', 10000),
+(23, 11, 'arme', 18000),
+(24, 12, 'arme', 27000),
+(25, 13, 'arme', 50000),
+(26, 14, 'arme', 35000),
+(27, 15, 'arme', 50000),
+(28, 1, 'armure', 500),
+(29, 2, 'armure', 4000),
+(30, 3, 'armure', 10000),
+(31, 4, 'armure', 30000),
+(32, 5, 'armure', 500),
+(33, 6, 'armure', 4000),
+(34, 7, 'armure', 10000),
+(35, 8, 'armure', 30000),
+(36, 9, 'armure', 500),
+(37, 10, 'armure', 4000),
+(38, 11, 'armure', 10000),
+(39, 12, 'armure', 30000),
+(40, 13, 'armure', 500),
+(41, 14, 'armure', 4000),
+(42, 15, 'armure', 10000),
+(43, 16, 'armure', 30000),
+(44, 17, 'armure', 500),
+(45, 18, 'armure', 4000),
+(46, 19, 'armure', 10000),
+(47, 20, 'armure', 30000),
+(48, 21, 'armure', 500),
+(49, 22, 'armure', 4000),
+(50, 23, 'armure', 10000),
+(51, 24, 'armure', 30000);
 
 -- --------------------------------------------------------
 
@@ -359,8 +449,20 @@ CREATE TABLE `faiblesse` (
 --
 
 INSERT INTO `faiblesse` (`id`, `id_monstre`, `id_type_faiblesse`) VALUES
-(1, 1, 4),
-(2, 1, 5);
+(1, 4, 3),
+(2, 8, 1),
+(3, 10, 1),
+(4, 11, 2),
+(5, 13, 1),
+(6, 15, 5),
+(7, 16, 4),
+(8, 18, 1),
+(9, 22, 4),
+(10, 26, 1),
+(11, 33, 3),
+(12, 45, 1),
+(13, 46, 2),
+(14, 48, 4);
 
 -- --------------------------------------------------------
 
@@ -381,11 +483,10 @@ INSERT INTO `famille` (`id`, `nom`) VALUES
 (1, 'Gluant'),
 (2, 'Zombie'),
 (3, 'Dragon'),
-(4, 'Métal'),
-(5, 'Démon'),
-(6, 'Naturel'),
-(7, 'Bête'),
-(8, 'Matière');
+(4, 'Démon'),
+(5, 'Naturel'),
+(6, 'Bête'),
+(7, 'Matière');
 
 -- --------------------------------------------------------
 
@@ -477,9 +578,72 @@ CREATE TABLE `loot` (
 --
 
 INSERT INTO `loot` (`id`, `id_monstre`, `table_du_loot`, `id_loot`, `pourcentage_loot`) VALUES
-(1, 1, 'arme', 1, 10),
-(2, 1, 'armure', 1, 5),
-(3, 1, 'objet', 1, 20);
+(1, 1, 'objet', 1, 10),
+(2, 2, 'arme', 1, 10),
+(3, 3, 'armure', 1, 10),
+(4, 4, 'arme', 1, 5),
+(5, 4, 'armure', 1, 5),
+(6, 5, 'objet', 2, 5),
+(7, 5, 'objet', 6, 5),
+(8, 6, 'arme', 2, 10),
+(9, 7, 'armure', 5, 5),
+(10, 8, 'armure', 9, 10),
+(11, 9, 'arme', 3, 10),
+(12, 10, 'armure', 13, 10),
+(13, 11, 'objet', 2, 10),
+(14, 11, 'arme', 17, 10),
+(15, 12, 'objet', 2, 10),
+(16, 13, 'objet', 7, 10),
+(17, 14, 'arme', 23, 10),
+(18, 15, 'arme', 4, 10),
+(19, 16, 'objet', 2, 10),
+(20, 17, 'armure', 6, 5),
+(21, 18, 'armure', 2, 10),
+(22, 19, 'arme', 5, 5),
+(23, 20, 'objet', 7, 5),
+(24, 21, 'objet', 2, 10),
+(25, 22, 'arme', 7, 5),
+(26, 23, 'objet', 1, 20),
+(27, 24, 'objet', 2, 10),
+(28, 25, 'armure', 10, 5),
+(29, 25, 'armure', 14, 5),
+(30, 25, 'armure', 18, 5),
+(31, 25, 'armure', 22, 5),
+(32, 26, 'arme', 6, 8),
+(33, 27, 'objet', 2, 15),
+(34, 28, 'objet', 3, 5),
+(35, 29, 'armure', 3, 5),
+(36, 30, 'arme', 8, 5),
+(37, 31, 'armure', 7, 5),
+(38, 32, 'objet', 3, 5),
+(39, 33, 'objet', 8, 5),
+(40, 34, 'armure', 23, 5),
+(41, 35, 'arme', 9, 5),
+(42, 35, 'arme', 10, 5),
+(43, 36, 'armure', 11, 5),
+(44, 37, 'armure', 19, 3),
+(45, 38, 'objet', 4, 5),
+(46, 38, 'objet', 8, 10),
+(47, 39, 'armure', 15, 5),
+(48, 40, 'arme', 11, 5),
+(49, 41, 'objet', 9, 2),
+(50, 42, 'armure', 19, 5),
+(51, 43, 'arme', 12, 5),
+(52, 44, 'objet', 10, 3),
+(53, 45, 'armure', 23, 5),
+(54, 46, 'objet', 10, 3),
+(55, 47, 'objet', 11, 3),
+(56, 48, 'objet', 12, 3),
+(57, 49, 'objet', 9, 10),
+(58, 50, 'arme', 14, 5),
+(59, 51, 'armure', 4, 1),
+(60, 51, 'armure', 8, 1),
+(61, 51, 'armure', 12, 1),
+(62, 51, 'armure', 16, 1),
+(63, 51, 'armure', 20, 1),
+(64, 51, 'armure', 24, 1),
+(65, 52, 'arme', 13, 1),
+(66, 52, 'arme', 15, 1);
 
 -- --------------------------------------------------------
 
@@ -509,9 +673,59 @@ CREATE TABLE `monstres` (
 --
 
 INSERT INTO `monstres` (`id`, `nom`, `LV`, `PV`, `PM`, `Attaque`, `Puissance_Magique`, `Défense`, `Résistance_Magique`, `Vitesse`, `Golds_Give`, `XP_Give`, `id_Famille`, `sprite_name`) VALUES
-(1, 'Soldat Squelette', 10, 35, 35, 17, 21, 23, 15, 14, 270, 12, 2, 'NONE'),
-(2, 'Gluant', 1, 6, 2, 4, 3, 3, 1, 5, 3, 3, 1, 'NONE'),
-(3, 'Pour les test', 1, 250, 250, 30, 30, 30, 30, 30, 0, 0, 0, 'NONE');
+(1, 'Gluant', 1, 15, 2, 12, 3, 3, 1, 5, 5, 3, 1, 'Gluant'),
+(2, 'Gluante', 2, 18, 7, 16, 15, 7, 7, 9, 8, 4, 1, 'Gluante'),
+(3, 'Fantôme', 3, 21, 16, 19, 18, 11, 11, 13, 15, 5, 2, 'Fantome'),
+(4, 'Médigluant', 4, 25, 25, 22, 23, 15, 15, 17, 21, 8, 1, 'Médigluant'),
+(5, 'Vampivol', 5, 27, 29, 26, 27, 19, 19, 21, 29, 11, 4, 'Vampivol'),
+(6, 'Faune', 6, 30, 33, 28, 27, 23, 23, 25, 36, 15, 6, 'Faune'),
+(7, 'Ornitoxe', 7, 35, 36, 30, 29, 27, 27, 29, 46, 22, 6, 'Ornitoxe'),
+(8, 'Souche Zombie', 8, 36, 41, 34, 35, 31, 31, 33, 51, 28, 2, 'SoucheZombie'),
+(9, 'Smilodon de Lait', 9, 38, 42, 36, 35, 35, 35, 37, 53, 37, 6, 'SmilodonDeLait'),
+(10, 'Sac à Trésor', 10, 40, 46, 39, 40, 39, 39, 41, 59, 51, 7, 'SacATrésor'),
+(11, 'BrûleFlamme', 11, 42, 50, 42, 43, 41, 41, 45, 64, 66, 7, 'BruleFlamme'),
+(12, 'Main de Boue', 12, 45, 52, 46, 45, 45, 45, 49, 67, 86, 5, 'MainDeBoue'),
+(13, 'Momie', 13, 46, 58, 48, 47, 49, 49, 49, 73, 120, 2, 'Momie'),
+(14, 'SabreTueur', 14, 48, 61, 51, 50, 53, 53, 53, 77, 167, 7, 'SabreTueur'),
+(15, 'Trode', 15, 50, 62, 53, 54, 57, 57, 57, 83, 217, 5, 'Trode'),
+(16, 'Chevalier Zombie', 16, 52, 64, 56, 55, 61, 61, 61, 91, 282, 2, 'ChevalierZombie'),
+(17, 'VampiGluant', 17, 56, 68, 58, 59, 65, 65, 65, 99, 366, 1, 'VampiGluant'),
+(18, 'Grocha', 18, 58, 71, 60, 59, 69, 69, 69, 104, 476, 6, 'Grocha'),
+(19, 'Gremlins', 19, 61, 73, 62, 61, 73, 73, 73, 107, 620, 6, 'Gremlins'),
+(20, 'Dragronce', 20, 63, 75, 64, 61, 77, 77, 77, 111, 806, 3, 'Dragronce'),
+(21, 'Gluant Translucide', 21, 66, 78, 68, 69, 81, 81, 81, 118, 1209, 1, 'GluantTranslucide'),
+(22, 'Démon Inférieur', 22, 68, 81, 73, 72, 85, 85, 85, 121, 1813, 4, 'DémonInférieur'),
+(23, 'Gigluant', 23, 73, 83, 76, 75, 89, 89, 89, 125, 2720, 1, 'Gigluant'),
+(24, 'Meno Macho', 24, 74, 87, 78, 77, 93, 93, 93, 130, 4080, 6, 'MenoMacho'),
+(25, 'Sorcier', 25, 76, 89, 81, 82, 97, 97, 97, 133, 6120, 4, 'Sorcier'),
+(26, 'Frelon Tueur', 26, 79, 92, 83, 82, 101, 101, 101, 138, 9180, 5, 'FrelonTueur'),
+(27, 'Dragon Vert', 27, 81, 96, 86, 85, 105, 105, 105, 142, 13771, 3, 'DragonVert'),
+(28, 'Roi Gluant', 28, 84, 98, 88, 85, 109, 109, 109, 148, 20656, 1, 'RoiGluant'),
+(29, 'Vercule', 29, 86, 101, 91, 85, 113, 113, 113, 151, 30985, 6, 'Vercule'),
+(30, 'Phalène Tueuse', 30, 89, 104, 93, 90, 117, 117, 117, 156, 46478, 6, 'PhalèneTueuse'),
+(31, 'Troll', 31, 90, 106, 94, 93, 121, 121, 121, 160, 69717, 5, 'Troll'),
+(32, 'GronnOeil', 32, 93, 109, 96, 97, 125, 125, 125, 167, 104575, 7, 'GronnOeil'),
+(33, 'Gracos', 33, 97, 113, 99, 98, 129, 129, 129, 172, 156863, 5, 'Gracos'),
+(34, 'Shivattak', 34, 99, 117, 102, 101, 133, 133, 133, 176, 235294, 4, 'Shivattak'),
+(35, 'Roi Gluant de Métal', 35, 101, 121, 106, 105, 137, 137, 137, 183, 352942, 1, 'RoiGluantMétal'),
+(36, 'Incarnus', 36, 104, 124, 107, 108, 141, 141, 141, 186, 529413, 6, 'Incarnus'),
+(37, 'Bastonnier', 37, 106, 128, 109, 108, 145, 145, 145, 192, 794120, 6, 'Bastonnier'),
+(38, 'Géant', 38, 109, 131, 111, 110, 149, 149, 149, 200, 1191180, 6, 'Géant'),
+(39, 'Phix', 39, 113, 135, 114, 113, 153, 153, 153, 208, 1786000, 7, 'Phix'),
+(40, 'Roi Serpent', 40, 119, 138, 116, 115, 157, 157, 157, 214, 2680155, 6, 'RoiSerpent'),
+(41, 'Gluant d''Or', 41, 121, 142, 119, 120, 161, 161, 161, 219, 4020232, 1, 'GluantOr'),
+(42, 'Grand Dragon', 42, 125, 143, 122, 121, 165, 165, 165, 225, 6030348, 3, 'GrandDragon'),
+(43, 'Psaro', 43, 127, 147, 124, 123, 169, 169, 169, 239, 7839453, 2, 'Psaro'),
+(44, 'Chef Troll', 44, 130, 150, 126, 125, 173, 173, 173, 246, 10191289, 5, 'ChefTroll'),
+(45, 'Dragon Poison', 45, 134, 153, 129, 128, 177, 177, 177, 258, 15286934, 3, 'DragonPoison'),
+(46, 'Dragon Flamboyant', 46, 136, 158, 132, 131, 181, 181, 181, 304, 22930401, 3, 'DragonFlamboyant'),
+(47, 'Machine à Exterminer', 47, 139, 163, 136, 135, 185, 185, 185, 309, 34395601, 7, 'MachineAExterminer'),
+(48, 'Ange Déchu', 48, 143, 168, 138, 139, 189, 189, 189, 319, 51593402, 4, 'AngeDéchu'),
+(49, 'LordDraco', 49, 149, 169, 141, 140, 193, 193, 193, 343, 77390103, 3, 'LordDraco'),
+(50, 'Seigneur Dragovien', 50, 152, 170, 143, 142, 197, 197, 197, 349, 100607134, 3, 'SeigneurDragovien'),
+(51, 'Yamete', 51, 156, 175, 146, 150, 201, 201, 201, 369, 130789275, 4, 'Yamete'),
+(52, 'Léviantan', 52, 160, 180, 150, 153, 210, 210, 210, 400, 170026058, 3, 'Léviantan');
+
 
 -- --------------------------------------------------------
 
@@ -531,18 +745,18 @@ CREATE TABLE `objet` (
 --
 
 INSERT INTO `objet` (`id`, `nom`, `Description`, `sprite_name`) VALUES
-(1, 'Herbe médicinale', 'Rend environ 40PV.', 'NONE'),
-(2, 'Remède puissant', 'Rend environ 80PV.', 'NONE'),
-(3, 'Remède spécial', 'Rend environ 120PV.', 'NONE'),
-(4, 'Remède supérieur', 'Rend environ 200PV.', 'NONE'),
-(5, 'Herbe curative', 'Guérie tous les statuts.', 'NONE'),
-(6, 'Eau magique', 'Rend environ 30PM.', 'NONE'),
-(7, 'Elixir du sage', 'Rend environ 60PM.', 'NONE'),
-(8, 'Élixir elfique', 'Rend environ 120PM.', 'NONE'),
-(9, 'Rosée d''Yggdrasil', 'Rend environ 400PV et 250PM.', 'NONE'),
-(10, 'Poudre décuplo', 'Boost l''attaque.', 'NONE'),
-(11, 'Vitesse plus', 'Boost la vitesse.', 'NONE'),
-(12, 'Défense plus', 'Boost la défense.', 'NONE');
+(1, 'Herbe médicinale', 'Rend environ 40PV.', 'HerbeMédicinale'),
+(2, 'Remède puissant', 'Rend environ 80PV.', 'RemèdePuissant'),
+(3, 'Remède spécial', 'Rend environ 120PV.', 'RemèdeSpécial'),
+(4, 'Remède supérieur', 'Rend environ 200PV.', 'RemèdeSupérieur'),
+(5, 'Herbe curative', 'Guérie tous les statuts.', 'HerbeCurative'),
+(6, 'Eau magique', 'Rend environ 30PM.', 'EauMagique'),
+(7, 'Elixir du sage', 'Rend environ 60PM.', 'ElixirDuSage'),
+(8, 'Élixir elfique', 'Rend environ 120PM.', 'ÉlixirElfique'),
+(9, 'Rosée d''Yggdrasil', 'Rend environ 400PV et 250PM.', 'RoséeYggdrasil'),
+(10, 'Poudre décuplo', 'Boost l''attaque.', 'PoudreDécuplo'),
+(11, 'Vitesse plus', 'Boost la vitesse.', 'VitessePlus'),
+(12, 'Défense plus', 'Boost la défense.', 'Défenseplus');
 
 -- --------------------------------------------------------
 
@@ -561,8 +775,45 @@ CREATE TABLE `résistance` (
 --
 
 INSERT INTO `résistance` (`id`, `id_monstre`, `id_type_résisté`) VALUES
-(1, 1, 1),
-(2, 1, 2);
+(1, 3, 1),
+(2, 4, 1),
+(3, 5, 5),
+(4, 8, 3),
+(5, 11, 1),
+(6, 12, 2),
+(7, 15, 1),
+(8, 15, 2),
+(9, 15, 3),
+(10, 16, 5),
+(11, 21, 4),
+(12, 22, 1),
+(13, 25, 1),
+(14, 25, 2),
+(15, 25, 3),
+(16, 28, 1),
+(17, 31, 3),
+(18, 35, 1),
+(19, 35, 2),
+(20, 35, 3),
+(21, 35, 4),
+(22, 35, 5),
+(23, 36, 4),
+(24, 38, 2),
+(25, 39, 3),
+(26, 41, 1),
+(27, 41, 4),
+(28, 42, 4),
+(29, 42, 5),
+(30, 44, 3),
+(31, 45, 3),
+(32, 46, 1),
+(33, 48, 5),
+(34, 51, 1),
+(35, 51, 2),
+(36, 51, 3),
+(37, 51, 4),
+(38, 51, 5),
+(39, 52, 5);
 
 -- --------------------------------------------------------
 

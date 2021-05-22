@@ -116,7 +116,7 @@ def create_user():
         User_actuel = User (data_user[0], data_user[1], data_user[2], data_user[3], data_user[4], data_user[5], data_user[6], data_user[7], data_user[8], data_user[9], data_user[10], data_user[11], data_user[12], data_user[13], data_user[14], data_user[15], data_user[16])
 
         insert_equipement_cursor=conn.cursor()
-        insert_equipement_query = ("INSERT INTO equipement_users(id, id_Users) VALUES({0}, {1})".format(max_id+1, max_id+1))
+        insert_equipement_query = ("INSERT INTO equipement_users(id_Users) VALUES({0})".format(max_id+1))
         insert_equipement_cursor.execute(insert_equipement_query)
         conn.commit()
         
@@ -146,8 +146,12 @@ def create_user():
 def menu(user):
     action = input("combat / boutique / inventaire / quitter ? : ")
     if action == "combat" :
-        id_monstre = int(input("id du monstre à affronter ? : "))
-        combat(user, id_monstre)
+        
+        randomint = randrange(user.LV - 4, user.LV + 1)
+        if randomint < 1 :
+            randomint = 1
+
+        combat(user, randomint)
 
     elif action == "boutique" :
         print("entrer boutique")
@@ -327,14 +331,16 @@ def combat(user, monstre_id) :
     global vérif_equipement
 
     equipement_cursor=conn.cursor()
-    equipement = ("SELECT * FROM {0} WHERE id = {1}".format("equipement_users", User_actuel.id))
+    equipement = ("SELECT * FROM {0} WHERE id_Users = {1}".format("equipement_users", User_actuel.id))
     equipement_cursor.execute(equipement)
     data_equipement = equipement_cursor.fetchone()
 
+    print(data_equipement)
+
     
 
-    if data_equipement[2] is not None and vérif_equipement == False:
-        casque = liste_armures[data_equipement[2]-1]        
+    if data_equipement[1] is not None and vérif_equipement == False:
+        casque = liste_armures[data_equipement[1]-1]        
         if casque.stat_boost == "Attaque" :
             user_Attaque_base += casque.bonus_stat
         elif casque.stat_boost == "Puissance_Magique" :
@@ -348,7 +354,7 @@ def combat(user, monstre_id) :
         elif casque.stat_boost == "Esquive" :
             User_actuel.Esquive += casque.bonus_stat
 
-    if data_equipement[3] is not None and vérif_equipement == False:
+    if data_equipement[2] is not None and vérif_equipement == False:
         plastron = liste_armures[data_equipement[2]-1]        
         if plastron.stat_boost == "Attaque" :
             user_Attaque_base += plastron.bonus_stat
@@ -363,8 +369,8 @@ def combat(user, monstre_id) :
         elif plastron.stat_boost == "Esquive" :
             User_actuel.Esquive += plastron.bonus_stat
 
-    if data_equipement[4] is not None and vérif_equipement == False:
-        jambières = liste_armures[data_equipement[2]-1]        
+    if data_equipement[3] is not None and vérif_equipement == False:
+        jambières = liste_armures[data_equipement[3]-1]        
         if jambières.stat_boost == "Attaque" :
             user_Attaque_base += jambières.bonus_stat
         elif jambières.stat_boost == "Puissance_Magique" :
@@ -378,8 +384,8 @@ def combat(user, monstre_id) :
         elif jambières.stat_boost == "Esquive" :
             User_actuel.Esquive += jambières.bonus_stat
 
-    if data_equipement[5] is not None and vérif_equipement == False:
-        bottes = liste_armures[data_equipement[2]-1]        
+    if data_equipement[4] is not None and vérif_equipement == False:
+        bottes = liste_armures[data_equipement[4]-1]        
         if bottes.stat_boost == "Attaque" :
             user_Attaque_base += bottes.bonus_stat
         elif bottes.stat_boost == "Puissance_Magique" :
@@ -393,8 +399,8 @@ def combat(user, monstre_id) :
         elif bottes.stat_boost == "Esquive" :
             User_actuel.Esquive += bottes.bonus_stat
 
-    if data_equipement[6] is not None and vérif_equipement == False:
-        anneau = liste_armures[data_equipement[2]-1]        
+    if data_equipement[5] is not None and vérif_equipement == False:
+        anneau = liste_armures[data_equipement[5]-1]        
         if anneau.stat_boost == "Attaque" :
             user_Attaque_base += anneau.bonus_stat
         elif anneau.stat_boost == "Puissance_Magique" :
@@ -408,8 +414,8 @@ def combat(user, monstre_id) :
         elif anneau.stat_boost == "Esquive" :
             User_actuel.Esquive += anneau.bonus_stat
 
-    if data_equipement[7] is not None and vérif_equipement == False:
-        collier = liste_armures[data_equipement[2]-1]        
+    if data_equipement[6] is not None and vérif_equipement == False:
+        collier = liste_armures[data_equipement[6]-1]        
         if collier.stat_boost == "Attaque" :
             user_Attaque_base += collier.bonus_stat
         elif collier.stat_boost == "Puissance_Magique" :
@@ -423,8 +429,8 @@ def combat(user, monstre_id) :
         elif collier.stat_boost == "Esquive" :
             User_actuel.Esquive += collier.bonus_stat
 
-    if data_equipement[8] is not None and vérif_equipement == False:
-        arme = liste_armes[data_equipement[2]-1]        
+    if data_equipement[7] is not None and vérif_equipement == False:
+        arme = liste_armes[data_equipement[7]-1]        
         if arme.stat_boost == "Attaque" :
             user_Attaque_base += arme.bonus_stat
         elif arme.stat_boost == "Puissance_Magique" :
@@ -1057,7 +1063,11 @@ def combat(user, monstre_id) :
         loot(User_actuel, monstre_id)
         gain_xp_gold(User_actuel, monstre_id)
 
-        combat(user, 1)
+        randomint = randrange(user.LV-4, user.LV+1)
+        if randomint < 1 :
+            randomint = 1
+
+        combat(user, randomint)
 
 
 
