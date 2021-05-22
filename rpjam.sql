@@ -432,6 +432,9 @@ CREATE TABLE `equipement_users` (
   `id_arme` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+INSERT INTO equipement_users VALUES
+(1, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+
 -- --------------------------------------------------------
 
 --
