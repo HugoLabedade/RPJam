@@ -7,6 +7,8 @@ def choix_monstre(user, monstre_id, User_actuel, user_PV_Max, user_PM_Max, user_
 
     monstre_actuel = monstre(monstre_id)
 
+    print(user)
+
     monstre_PV_Max = monstre_actuel.PV
     monstre_PV = monstre_actuel.PV
 

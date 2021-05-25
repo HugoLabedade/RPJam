@@ -214,19 +214,19 @@ def combat(user, monstre, action, compétence_objet, monstre_PV, monstre_PV_Max,
 
     
     if Décuplo == True :
-        User_actuel.Attaque = user_Attaque_base * 2
+        user.Attaque = user_Attaque_base * 2
     else : 
-        User_actuel.Attaque = user_Attaque_base
+        user.Attaque = user_Attaque_base
 
     if Protection == True :
-        User_actuel.Défense = user_Défense_base * 2
+        user.Défense = user_Défense_base * 2
     else : 
-        User_actuel.Défense = user_Défense_base
+        user.Défense = user_Défense_base
 
     if Hâte == True :
-        User_actuel.Vitesse = user_Vitesse_base * 2
+        user.Vitesse = user_Vitesse_base * 2
     else : 
-        User_actuel.Vitesse = user_Vitesse_base
+        user.Vitesse = user_Vitesse_base
 
     if Cercle_du_carnage == True :
         chances_crit = 10
@@ -234,9 +234,9 @@ def combat(user, monstre, action, compétence_objet, monstre_PV, monstre_PV_Max,
         chances_crit = 5
 
     if Souffle_du_sage == True :
-        User_actuel.PM += round(user_PM_Max/20)
-        if User_actuel.PM > user_PM_Max :
-            User_actuel.PM = user_PM_Max
+        user.PM += round(user_PM_Max/20)
+        if user.PM > user_PM_Max :
+            user.PM = user_PM_Max
 
     if Clic_clac_zap == True :
         Brûlure = False
@@ -245,7 +245,7 @@ def combat(user, monstre, action, compétence_objet, monstre_PV, monstre_PV_Max,
         Paralysie = False
         Confusion = False
 
-    if User_actuel.Vitesse <= monstre.Vitesse :
+    if user.Vitesse <= monstre.Vitesse :
 
         # Code tour du monstre
         if Brûlure_ennemi == True :
@@ -265,17 +265,17 @@ def combat(user, monstre, action, compétence_objet, monstre_PV, monstre_PV_Max,
 
 
         if Sommeil_ennemi == False and Paralysie_ennemi == False and monstre_PV > 0 :
-            degats_monstre = attaque_monstre(monstre, User_actuel)
+            degats_monstre = attaque_monstre(monstre, user)
             print(degats_monstre)
 
             if Boost_Esquive == True :
                 randomint = randrange(1,101)
-                if randomint <= User_actuel.Esquive + 15 :
+                if randomint <= user.Esquive + 15 :
                     degats_monstre = 0
 
             else :
                 randomint = randrange(1,101)
-                if randomint <= User_actuel.Esquive :
+                if randomint <= user.Esquive :
                     degats_monstre = 0
 
             if Grâce_de_la_Déesse == True and degats_monstre >= user_PV:
@@ -306,18 +306,18 @@ def combat(user, monstre, action, compétence_objet, monstre_PV, monstre_PV_Max,
 
             if action == "Attaque" :
                 
-                monstre_PV -= Attaque_normal_user(User_actuel.Attaque, monstre.Défense)
+                monstre_PV -= Attaque_normal_user(user.Attaque, monstre.Défense)
                 print("PV du monstre : {0}".format(monstre_PV))
 
             elif action == "Compétences" :
         
-                if User_actuel.PM >= compétence_objet.PM_Utilisé : 
+                if user.PM >= compétence_objet.PM_Utilisé : 
 
                     if compétence_objet.Magique_Physique == "Physique" :
-                        données = compétence_physique(User_actuel, monstre, compétence_objet, chances_crit, Confusion_ennemi, Sommeil_ennemi, Poison_ennemi, Paralysie_ennemi, Brûlure_ennemi)
+                        données = compétence_physique(user, monstre, compétence_objet, chances_crit, Confusion_ennemi, Sommeil_ennemi, Poison_ennemi, Paralysie_ennemi, Brûlure_ennemi)
                         degats = critique(données[0], données[3])
                         monstre_PV -= degats
-                        User_actuel.PM -= données[1]
+                        user.PM -= données[1]
                         user_PV += données[2]
                         if user_PV > user_PV_Max :
                             user_PV = user_PV_Max
@@ -334,10 +334,10 @@ def combat(user, monstre, action, compétence_objet, monstre_PV, monstre_PV_Max,
                         Count_Paralysie_ennemi = données[13]
 
                     elif compétence_objet.Magique_Physique == "Magique" :
-                        données = compétence_magique(User_actuel, monstre, compétence_objet, chances_crit, Confusion_ennemi, Sommeil_ennemi, Poison_ennemi, Paralysie_ennemi, Brûlure_ennemi, Aura_de_peur, Psychocanalisation)
+                        données = compétence_magique(user, monstre, compétence_objet, chances_crit, Confusion_ennemi, Sommeil_ennemi, Poison_ennemi, Paralysie_ennemi, Brûlure_ennemi, Aura_de_peur, Psychocanalisation)
                         degats = critique(données[0], données[3])
                         monstre_PV -= degats
-                        User_actuel.PM -= données[1]
+                        user.PM -= données[1]
                         user_PV += données[2]
                         if user_PV > user_PV_Max :
                             user_PV = user_PV_Max
@@ -358,8 +358,8 @@ def combat(user, monstre, action, compétence_objet, monstre_PV, monstre_PV_Max,
                     else :
                         données = compétence_sans_dommages(user_PV_Max, compétence_objet)
                         user_PV += données[0]
-                        User_actuel.PM -= données[1]
-                        print(User_actuel.PM)
+                        user.PM -= données[1]
+                        print(user.PM)
                         if user_PV > user_PV_Max :
                             user_PV = user_PV_Max
 
@@ -405,9 +405,9 @@ def combat(user, monstre, action, compétence_objet, monstre_PV, monstre_PV_Max,
                 if user_PV > user_PV_Max :
                     user_PV = user_PV_Max
 
-                User_actuel.PM += données[1]
-                if User_actuel.PM > user_PM_Max :
-                    User_actuel.PM = user_PM_Max
+                user.PM += données[1]
+                if user.PM > user_PM_Max :
+                    user.PM = user_PM_Max
 
                 Décuplo = données[2]
                 Count_Décuplo = données[3]
@@ -417,13 +417,13 @@ def combat(user, monstre, action, compétence_objet, monstre_PV, monstre_PV_Max,
                 Count_Protection = données[7]
 
                 print(user_PV)
-                print(User_actuel.PM)
+                print(user.PM)
 
 
 
         
 
-    if User_actuel.Vitesse >= monstre.Vitesse :
+    if user.Vitesse >= monstre.Vitesse :
     
     
         # Code tour du user
@@ -447,18 +447,18 @@ def combat(user, monstre, action, compétence_objet, monstre_PV, monstre_PV_Max,
 
             if action == "Attaque" :
                 
-                monstre_PV -= Attaque_normal_user(User_actuel.Attaque, monstre.Défense)
+                monstre_PV -= Attaque_normal_user(user.Attaque, monstre.Défense)
                 print("PV du monstre : {0}".format(monstre_PV))
 
             elif action == "Compétences" :
         
-                if User_actuel.PM >= compétence_objet.PM_Utilisé : 
+                if user.PM >= compétence_objet.PM_Utilisé : 
 
                     if compétence_objet.Magique_Physique == "Physique" :
-                        données = compétence_physique(User_actuel, monstre, compétence_objet, chances_crit, Confusion_ennemi, Sommeil_ennemi, Poison_ennemi, Paralysie_ennemi, Brûlure_ennemi)
+                        données = compétence_physique(user, monstre, compétence_objet, chances_crit, Confusion_ennemi, Sommeil_ennemi, Poison_ennemi, Paralysie_ennemi, Brûlure_ennemi)
                         degats = critique(données[0], données[3])
                         monstre_PV -= degats
-                        User_actuel.PM -= données[1]
+                        user.PM -= données[1]
                         user_PV += données[2]
                         if user_PV > user_PV_Max :
                             user_PV = user_PV_Max
@@ -475,10 +475,10 @@ def combat(user, monstre, action, compétence_objet, monstre_PV, monstre_PV_Max,
                         Count_Paralysie_ennemi = données[13]
 
                     elif compétence_objet.Magique_Physique == "Magique" :
-                        données = compétence_magique(User_actuel, monstre, compétence_objet, chances_crit, Confusion_ennemi, Sommeil_ennemi, Poison_ennemi, Paralysie_ennemi, Brûlure_ennemi, Aura_de_peur, Psychocanalisation)
+                        données = compétence_magique(user, monstre, compétence_objet, chances_crit, Confusion_ennemi, Sommeil_ennemi, Poison_ennemi, Paralysie_ennemi, Brûlure_ennemi, Aura_de_peur, Psychocanalisation)
                         degats = critique(données[0], données[3])
                         monstre_PV -= degats
-                        User_actuel.PM -= données[1]
+                        user.PM -= données[1]
                         user_PV += données[2]
                         if user_PV > user_PV_Max :
                             user_PV = user_PV_Max
@@ -499,8 +499,8 @@ def combat(user, monstre, action, compétence_objet, monstre_PV, monstre_PV_Max,
                     else :
                         données = compétence_sans_dommages(user_PV_Max, compétence_objet)
                         user_PV += données[0]
-                        User_actuel.PM -= données[1]
-                        print(User_actuel.PM)
+                        user.PM -= données[1]
+                        print(user.PM)
                         if user_PV > user_PV_Max :
                             user_PV = user_PV_Max
 
@@ -546,9 +546,9 @@ def combat(user, monstre, action, compétence_objet, monstre_PV, monstre_PV_Max,
                 if user_PV > user_PV_Max :
                     user_PV = user_PV_Max
 
-                User_actuel.PM += données[1]
-                if User_actuel.PM > user_PM_Max :
-                    User_actuel.PM = user_PM_Max
+                user.PM += données[1]
+                if user.PM > user_PM_Max :
+                    user.PM = user_PM_Max
 
                 Décuplo = données[2]
                 Count_Décuplo = données[3]
@@ -558,7 +558,7 @@ def combat(user, monstre, action, compétence_objet, monstre_PV, monstre_PV_Max,
                 Count_Protection = données[7]
 
                 print(user_PV)
-                print(User_actuel.PM)
+                print(user.PM)
 
 
 
@@ -580,17 +580,17 @@ def combat(user, monstre, action, compétence_objet, monstre_PV, monstre_PV_Max,
 
 
         if Sommeil_ennemi == False and Paralysie_ennemi == False and monstre_PV > 0 :
-            degats_monstre = attaque_monstre(monstre, User_actuel)
+            degats_monstre = attaque_monstre(monstre, user)
             print(degats_monstre)
 
             if Boost_Esquive == True :
                 randomint = randrange(1,101)
-                if randomint <= User_actuel.Esquive + 15 :
+                if randomint <= user.Esquive + 15 :
                     degats_monstre = 0
 
             else :
                 randomint = randrange(1,101)
-                if randomint <= User_actuel.Esquive :
+                if randomint <= user.Esquive :
                     degats_monstre = 0
 
             if Grâce_de_la_Déesse == True and degats_monstre >= user_PV:
@@ -691,8 +691,23 @@ def combat(user, monstre, action, compétence_objet, monstre_PV, monstre_PV_Max,
 
     elif monstre_PV <= 0 :
         
-        loot(User_actuel, monstre.id)
-        gain_xp_gold(User_actuel, monstre.id)
+        loot(user, monstre.id)
+        gain_xp_gold(user, monstre.id)
+
+        level_up_user_cursor=conn.cursor()
+        level_up_user = ("SELECT * FROM {0} WHERE id = '{1}'".format("Users", user.id))
+        level_up_user_cursor.execute(level_up_user)
+        data_user_level_up = level_up_user_cursor.fetchone()
+
+        User_actuel = User (data_user_level_up[0], data_user_level_up[1], data_user_level_up[2], data_user_level_up[3], data_user_level_up[4], data_user_level_up[5], data_user_level_up[6], data_user_level_up[7], data_user_level_up[8], data_user_level_up[9], data_user_level_up[10], data_user_level_up[11], data_user_level_up[12], data_user_level_up[13], data_user_level_up[14], data_user_level_up[15], data_user_level_up[16])
+
+        user_PV_Max = User_actuel.PV
+        user_PM_Max = User_actuel.PM
+        user_Attaque_base = User_actuel.Attaque
+        user_Défense_base = User_actuel.Défense
+        user_Vitesse_base = User_actuel.Vitesse
+        user = User_actuel
+
         
         randomint = randrange(user.LV - 4, user.LV + 1)
         if randomint < 1 :
