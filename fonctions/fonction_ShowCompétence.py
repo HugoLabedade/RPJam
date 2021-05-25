@@ -4,6 +4,7 @@ import tkinter.font as tkFont
 from création_fenetre_jeu import frameBase
 import fonctions.fonction_lancement_menu_combat as jeu
 from fonctions.fonction_print_compétences import print_compétences
+import fonctions.fonction_ShowCombat as back
 
 def ShowCompétences(user, monstre_actuel, monstre_PV, monstre_PV_Max, user_PV, user_PV_Max, user_PM_Max, user_Attaque_base, user_Défense_base, user_Vitesse_base, vérif_equipement) :
     global frameBase
@@ -17,6 +18,14 @@ def ShowCompétences(user, monstre_actuel, monstre_PV, monstre_PV_Max, user_PV, 
     canvas_1.pack()
 
     font = tkFont.Font(family='Helvetica', size=15)
+
+    labelvie_monstre = Label(frameBase, text="PV : {0}/{1}".format(monstre_PV, monstre_PV_Max), background="#7acbf9", font=font)
+    labelvie_monstre.place(x=1000, y=175)
+
+    labelvie_user = Label(frameBase, text="PV : {0}/{1}".format(user_PV, user_PV_Max), background="#7acbf9", font=font)
+    labelvie_user.place(x=50, y=175)
+    labelvie_monstre = Label(frameBase, text="PM : {0}/{1}".format(user.PM, user_PM_Max), background="#7acbf9", font=font)
+    labelvie_monstre.place(x=50, y=250)
 
     # init des sprites
     sprite_gentil = PhotoImage(file="assets/Jam.gif")
@@ -198,6 +207,9 @@ def ShowCompétences(user, monstre_actuel, monstre_PV, monstre_PV_Max, user_PV, 
         compétence11.place(x=1030, y=620)
         compétence12 = Button(frameBase, text="{0}".format(liste_compétences_apprises[11].nom), borderwidth=1, activebackground="#80ad72", bg="#80ad72", command=lambda: jeu.combat(user, monstre_actuel, "Compétences", liste_compétences_apprises[11], monstre_PV, monstre_PV_Max, user_PV, user_PV_Max, user_PM_Max, user_Attaque_base, user_Défense_base, user_Vitesse_base, vérif_equipement), font=font, height=1, width=16)
         compétence12.place(x=1030, y=670)
+
+    retour = Button(frameBase, text="Retour", borderwidth=1, activebackground="#80ad72", bg="#80ad72", command=lambda: back.ShowCombat(user, monstre_actuel, monstre_PV, monstre_PV_Max, user_PV, user_PV_Max, user_PM_Max, user_Attaque_base, user_Défense_base, user_Vitesse_base, vérif_equipement), font=font, height=1, width=16)
+    retour.place(x=1030, y=30)
 
 
     frameBase.mainloop()

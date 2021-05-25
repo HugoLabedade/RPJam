@@ -1,15 +1,15 @@
 
-from fonctions.fonction_VoirInventaire import VoirInventaire
+import fonctions.fonction_VoirInventaire as inv
 from fonctions.fonction_print_objets import print_objets
-from fonctions.fonction_ShowArmes import ShowArmes
-from fonctions.fonction_ShowArmures import ShowArmures
+import fonctions.fonction_ShowArmes as armes
+import fonctions.fonction_ShowArmures as armures
 
 def inventaire(user, action, arme_armure) :
     
 
     if action == 1 :
 
-        VoirInventaire(user)
+        inv.VoirInventaire(user)
 
         liste_objets_inventaire = print_objets(user.id)
         for i in liste_objets_inventaire :
@@ -19,9 +19,9 @@ def inventaire(user, action, arme_armure) :
     elif action == 2 :
 
         if arme_armure == 1 :
-            ShowArmes(user)
+            armes.ShowArmes(user)
 
         elif arme_armure == 2 :
-            ShowArmures(user)
+            armures.ShowArmures(user)
 
         

@@ -3,6 +3,7 @@ from fonctions.fonction_equiper_armure import equiper_armure
 from création_fenetre_jeu import frameBase
 import tkinter.font as tkFont
 from tkinter import *
+import fonctions.fonction_ShowMenu as back
 
 def ShowArmures(user) :
 
@@ -638,6 +639,8 @@ def ShowArmures(user) :
         armure24 = Button(frameBase, text="{0}".format(liste_armures[23].nom), borderwidth=1, activebackground="#80ad72", bg="#80ad72", command=lambda: equiper_armure(user, liste_armures[23]), font=font, height=1, width=16)
         armure24.place(x=1030, y=520)
 
+    retour = Button(frameBase, text="Retour", borderwidth=1, activebackground="#80ad72", bg="#80ad72", command=lambda: back.ShowMenu(user), font=font, height=1, width=16)
+    retour.place(x=1030, y=30)
 
 
     frameBase.mainloop()

@@ -39,6 +39,13 @@ def lancement():
     global frameBase
     global boutonInscrip
     global boutonConnex
+
+    clear_frame()
+
+    canvas_1 = Canvas(frameBase, width=1280, height=720)
+    bg = PhotoImage(file="assets/bg.png")
+    canvas_1.create_image(0, 0, image=bg, anchor="nw")
+    canvas_1.pack()
     
     font = tkFont.Font(family='Helvetica', size=15)
     boutonInscrip = Button(frameBase, text="Inscription", borderwidth=0, activebackground="#7acbf9",
@@ -699,6 +706,8 @@ def combat(user, monstre, action, compétence_objet, monstre_PV, monstre_PV_Max,
         level_up_user_cursor.execute(level_up_user)
         data_user_level_up = level_up_user_cursor.fetchone()
 
+        userPM = user.PM
+
         User_actuel = User (data_user_level_up[0], data_user_level_up[1], data_user_level_up[2], data_user_level_up[3], data_user_level_up[4], data_user_level_up[5], data_user_level_up[6], data_user_level_up[7], data_user_level_up[8], data_user_level_up[9], data_user_level_up[10], data_user_level_up[11], data_user_level_up[12], data_user_level_up[13], data_user_level_up[14], data_user_level_up[15], data_user_level_up[16])
 
         user_PV_Max = User_actuel.PV
@@ -707,6 +716,7 @@ def combat(user, monstre, action, compétence_objet, monstre_PV, monstre_PV_Max,
         user_Défense_base = User_actuel.Défense
         user_Vitesse_base = User_actuel.Vitesse
         user = User_actuel
+        user.PM = userPM
 
         
         randomint = randrange(user.LV - 4, user.LV + 1)

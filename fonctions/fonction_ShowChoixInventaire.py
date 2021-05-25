@@ -6,6 +6,7 @@ from création_fenetre_jeu import frameBase
 import fonctions.fonction_lancement_menu_combat as jeu
 from fonctions.fonction_inventaire import inventaire
 from fonctions.fonction_ShowChoixGestionArmure import ShowChoixGestionArmure
+import fonctions.fonction_ShowMenu as back
 
 def ShowChoixInventaire(user) :
 
@@ -25,5 +26,8 @@ def ShowChoixInventaire(user) :
     boutonConnex = Button(frameBase, text="Gérer l'équipement", borderwidth=0, activebackground="#7acbf9",
                         background="#7acbf9", command= lambda: ShowChoixGestionArmure(user), font=font, height=1, width=20)
     boutonConnex.place(x=600, y=250)
+
+    retour = Button(frameBase, text="Retour", borderwidth=1, activebackground="#80ad72", bg="#80ad72", command=lambda: back.ShowMenu(user), font=font, height=1, width=16)
+    retour.place(x=1030, y=30)
 
     frameBase.mainloop()

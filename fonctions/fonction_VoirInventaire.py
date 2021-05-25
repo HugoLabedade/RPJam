@@ -3,6 +3,7 @@ from tkinter import *
 import tkinter.font as tkFont
 from création_fenetre_jeu import frameBase
 from fonctions.fonction_print_objets import print_objets
+import fonctions.fonction_ShowMenu as back
 
 def VoirInventaire(user) :
 
@@ -198,6 +199,9 @@ def VoirInventaire(user) :
         objet11.place(x=1030, y=620)
         objet12 = Label(frameBase, text="{0}".format(liste_objets_inventaire[11].nom), background="#7acbf9", font=font)
         objet12.place(x=1030, y=670)
+
+    retour = Button(frameBase, text="Retour", borderwidth=1, activebackground="#80ad72", bg="#80ad72", command=lambda: back.ShowMenu(user), font=font, height=1, width=16)
+    retour.place(x=1030, y=30)
 
     frameBase.mainloop()
 

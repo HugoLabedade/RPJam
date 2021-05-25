@@ -4,6 +4,7 @@ from tkinter import *
 from fonctions.fonction_boutique import boutique
 import tkinter.font as tkFont
 from fonctions.fonction_achat_boutique import achat_boutique
+import fonctions.fonction_ShowMenu as back
 
 
 def ShowBoutique(user) :
@@ -136,6 +137,9 @@ def ShowBoutique(user) :
         achat10.place(x=830, y=670)
         achat11 = Button(frameBase, text="{0} : {1} Golds".format(liste_boutique[50][0].nom, liste_boutique[50][1]), borderwidth=1, activebackground="#80ad72", bg="#80ad72", command=lambda: achat_boutique(user, liste_boutique[50]), font=font, height=1, width=16)
         achat11.place(x=1030, y=620)
+
+    retour = Button(frameBase, text="Retour", borderwidth=1, activebackground="#80ad72", bg="#80ad72", command=lambda: back.ShowMenu(user), font=font, height=1, width=16)
+    retour.place(x=1030, y=30)
 
     frameBase.mainloop()
 
