@@ -1,6 +1,31 @@
 from fonctions.variables import *
+from fonctions.conn_liste import conn
 
-def utilisation_objet(objet) :
+def utilisation_objet(user, objet) :
+
+    select_quantité=conn.cursor()
+    update_delete=conn.cursor()
+
+    objets = ("SELECT * FROM {0} WHERE id_Users = {1} AND id_item = {2}".format("inventaire", user.id, objet.id))
+    select_quantité.execute(objets)
+    data_objet = select_quantité.fetchone()
+
+    if data_objet[3] > 1 :
+    
+        update_delete_query = ("UPDATE {0} SET {1} = {2} - 1 WHERE id_Users = {3} AND id_item = {4}".format("inventaire", "quantité", "quantité", user.id, objet.id))
+        update_delete.execute(update_delete_query)
+        conn.commit()
+
+    else :
+        
+        update_delete_query = ("DELETE FROM {0} WHERE id_Users = {1} AND id_item = {2}".format("inventaire", user.id, objet.id))
+        update_delete.execute(update_delete_query)
+        conn.commit()
+
+
+    print(data_objet)
+
+    
     
     heal = 0
     heal_PM = 0

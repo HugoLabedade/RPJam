@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
+from tkinter import *
+import fonctions.fonction_lancement_menu_combat as jeu
+
+#lancement
 
 
 
-from fonctions.fonction_menu_inventaire_combat_connexion import lancement
 
-lancement()
+jeu.lancement()
