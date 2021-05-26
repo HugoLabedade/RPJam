@@ -20,6 +20,9 @@ def ShowBoutique(user) :
 
     liste_boutique = boutique()
 
+    achat1 = Label(frameBase, text="{0} Golds".format(user.Golds), borderwidth=1, activebackground="#80ad72", bg="#80ad72", font=font, height=1, width=16)
+    achat1.place(x=30, y=30)
+
     
     if user.LV <= 10 :
         
